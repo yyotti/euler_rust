@@ -4,3 +4,4 @@ pub trait Solver<T> {
 
 pub mod common;
 pub mod p0001;
+pub mod p0002;

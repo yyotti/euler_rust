@@ -11,9 +11,7 @@ impl super::Solver<u64> for Solver {
 }
 
 fn solve(input: u64) -> u64 {
-        (1..input)
-            .filter(|n| n % 3 == 0 || n % 5 == 0)
-            .sum()
+    (1..input).filter(|n| n % 3 == 0 || n % 5 == 0).sum()
 }
 
 #[cfg(test)]
