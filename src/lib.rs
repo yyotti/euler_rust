@@ -1,7 +1,6 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
+pub trait Solver<T> {
+    fn solve(&self) -> T;
 }
+
+pub mod common;
+pub mod p0001;
