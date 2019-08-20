@@ -56,7 +56,7 @@ mod tests {
 
     #[test]
     fn fibonacci_next() {
-        let mut fib = Fibonacci::new(0, 1);
+        let mut fib = Fibonacci { a1: 0, a2: 1 };
         for expected in vec![0, 1, 1, 2, 3, 5, 8, 13, 21, 34] {
             let f = fib.next();
             assert_eq!(Some(expected), f);
