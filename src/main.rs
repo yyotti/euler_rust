@@ -5,6 +5,7 @@ fn main() {
         Box::new(p0001::Solver),
         Box::new(p0002::Solver),
         Box::new(p0003::Solver),
+        Box::new(p0004::Solver),
     ];
 
     for s in solvers {
