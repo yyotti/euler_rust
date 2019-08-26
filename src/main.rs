@@ -13,6 +13,7 @@ fn main() {
         Box::new(p0004::Solver),
         Box::new(p0005::Solver),
         Box::new(p0006::Solver),
+        Box::new(p0007::Solver),
     ];
 
     let app = app_from_crate!()
