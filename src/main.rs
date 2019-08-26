@@ -11,6 +11,7 @@ fn main() {
         Box::new(p0002::Solver),
         Box::new(p0003::Solver),
         Box::new(p0004::Solver),
+        Box::new(p0005::Solver),
     ];
 
     let app = app_from_crate!()
@@ -25,7 +26,7 @@ fn main() {
 
     let matches = app.get_matches();
     match values_t!(matches, "number", usize) {
-        Ok(ref nums) if (|| nums.iter().all(|&n| n > 0 && n < solvers.len()))() => for n in nums {
+        Ok(ref nums) if (|| nums.iter().all(|&n| n > 0 && n <= solvers.len()))() => for n in nums {
             println!("{}", solvers[n-1].solve());
         },
         Err(ref e) if e.kind == ErrorKind::ArgumentNotFound => {
