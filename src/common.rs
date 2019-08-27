@@ -43,7 +43,7 @@ pub fn prime_factors(n: u64) -> HashMap<u64, u32> {
     let mut m = n;
     for p in Primes::new() {
         if p > m {
-            break
+            break;
         }
 
         while m % p == 0 {
