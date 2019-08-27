@@ -14,7 +14,8 @@ fn solve(input: u32) -> u64 {
     let m = input - 1;
     let min = 10u64.pow(m);
     let max = 10u64.pow(m + 1);
-    (min..max).rev()
+    (min..max)
+        .rev()
         .flat_map(|n| (min..(n + 1)).rev().map(move |m| n * m))
         .filter(|&l| is_palindrome(digits(l).as_slice()))
         .max()
@@ -46,10 +47,7 @@ mod tests {
 
     #[test]
     fn find_max_palindrome_number() {
-        let ts = vec![
-            (1, 9),
-            (2, 9009),
-        ];
+        let ts = vec![(1, 9), (2, 9009)];
         for (input, expected) in ts {
             assert_eq!(expected, solve(input), "{}", input)
         }

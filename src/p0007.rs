@@ -22,14 +22,7 @@ mod tests {
 
     #[test]
     fn find_nth_prime_number() {
-        let ts = vec![
-            (1, 2),
-            (2, 3),
-            (3, 5),
-            (4, 7),
-            (5, 11),
-            (6, 13),
-        ];
+        let ts = vec![(1, 2), (2, 3), (3, 5), (4, 7), (5, 11), (6, 13)];
         for (input, expected) in ts {
             assert_eq!(expected, solve(input));
         }
