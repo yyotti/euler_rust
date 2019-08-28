@@ -72,8 +72,8 @@ mod tests {
             next: 2,
         };
         for expected in vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29] {
-            let f = primes.next();
-            assert_eq!(Some(expected), f);
+            let p = primes.next();
+            assert_eq!(Some(expected), p);
         }
     }
 
