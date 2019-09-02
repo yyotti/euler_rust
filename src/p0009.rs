@@ -1,5 +1,7 @@
 //! [Problem 9](https://projecteuler.net/problem=9)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%209))
 
+use super::common::gcd;
+
 pub struct Solver;
 
 const MAX: u64 = 1000;
@@ -40,46 +42,7 @@ fn solve() -> u64 {
         .unwrap_or(0)
 }
 
-fn gcd(a: u64, b: u64) -> u64 {
-    if a < b {
-        return gcd(b, a);
-    }
-
-    if b == 0 {
-        return a;
-    }
-
-    gcd(b, a % b)
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
-
-    #[test]
-    fn calc_gcd() {
-        let ts = vec![
-            (1, (1, 0)),
-            (1, (2, 1)),
-            (2, (2, 2)),
-            (1, (3, 1)),
-            (1, (3, 2)),
-            (3, (3, 3)),
-            (1, (4, 1)),
-            (2, (4, 2)),
-            (1, (4, 3)),
-            (4, (4, 4)),
-            (1, (6, 1)),
-            (2, (6, 2)),
-            (3, (6, 3)),
-            (2, (6, 4)),
-            (1, (6, 5)),
-            (6, (6, 6)),
-            (6, (6, 6)),
-        ];
-        for (expected, (a, b)) in ts {
-            assert_eq!(expected, gcd(a, b), "gcd({}, {})", a, b);
-            assert_eq!(expected, gcd(b, a), "gcd({}, {})", b, a);
-        }
-    }
+    // No tests
 }

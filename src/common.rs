@@ -54,19 +54,31 @@ pub fn prime_factors(n: u64) -> HashMap<u64, u32> {
     map
 }
 
+pub fn gcd(a: u64, b: u64) -> u64 {
+    if a < b {
+        return gcd(b, a);
+    }
+
+    if b == 0 {
+        return a;
+    }
+
+    gcd(b, a % b)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn primes_new() {
+    fn test_primes_new() {
         let primes = Primes::new();
         assert_eq!(vec![2], primes.ps);
         assert_eq!(2, primes.next);
     }
 
     #[test]
-    fn primes_next() {
+    fn test_primes_next() {
         let mut primes = Primes {
             ps: vec![2],
             next: 2,
@@ -78,7 +90,7 @@ mod tests {
     }
 
     #[test]
-    fn get_prime_factors() {
+    fn test_prime_factors() {
         let ts = vec![
             (0, HashMap::new()),
             (1, HashMap::new()),
@@ -94,6 +106,33 @@ mod tests {
         ];
         for (input, expected) in ts {
             assert_eq!(expected, prime_factors(input));
+        }
+    }
+
+    #[test]
+    fn test_gcd() {
+        let ts = vec![
+            (1, (1, 0)),
+            (1, (2, 1)),
+            (2, (2, 2)),
+            (1, (3, 1)),
+            (1, (3, 2)),
+            (3, (3, 3)),
+            (1, (4, 1)),
+            (2, (4, 2)),
+            (1, (4, 3)),
+            (4, (4, 4)),
+            (1, (6, 1)),
+            (2, (6, 2)),
+            (3, (6, 3)),
+            (2, (6, 4)),
+            (1, (6, 5)),
+            (6, (6, 6)),
+            (6, (6, 6)),
+        ];
+        for (expected, (a, b)) in ts {
+            assert_eq!(expected, gcd(a, b), "gcd({}, {})", a, b);
+            assert_eq!(expected, gcd(b, a), "gcd({}, {})", b, a);
         }
     }
 }
