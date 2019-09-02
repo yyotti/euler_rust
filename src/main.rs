@@ -37,11 +37,14 @@ fn main() {
     match values_t!(matches, "number", usize) {
         Ok(ref nums) if (|| nums.iter().all(|&n| n > 0 && n <= solvers.len()))() => {
             for n in nums {
-                println!("{}", solvers[n - 1].solve());
+                println!("{:0>4}: {}", n, solvers[n - 1].solve());
             }
         }
         Err(ref e) if e.kind == ErrorKind::ArgumentNotFound => {
-            solvers.iter().for_each(|s| println!("{}", s.solve()));
+            solvers
+                .iter()
+                .enumerate()
+                .for_each(|(i, s)| println!("{:0>4}: {}", i + 1, s.solve()));
         }
         Err(e) => println!("{}", e),
         _ => println!("{}", "Cannot ..."),
