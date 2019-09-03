@@ -21,7 +21,8 @@ fn solve(input: u32) -> u64 {
 fn count_factors(n: u64) -> u64 {
     prime_factors(n)
         .iter()
-        .fold(1, |acc, (_, e)| acc * (e + 1) as u64)
+        .map(|(_, &e)| e as u64 + 1)
+        .product()
 }
 
 struct Triangles {

@@ -21,7 +21,8 @@ fn solve(input: u64) -> u64 {
             acc
         })
         .iter()
-        .fold(1, |acc, (k, v)| acc * k.pow(*v))
+        .map(|(k, &v)| k.pow(v))
+        .product()
 }
 
 #[cfg(test)]

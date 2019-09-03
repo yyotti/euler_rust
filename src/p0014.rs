@@ -38,11 +38,11 @@ impl Iterator for Collatz {
             Some(n) if n % 2 == 0 => {
                 self.n = Some(n / 2);
                 Some(n)
-            },
+            }
             Some(n) => {
                 self.n = Some(3 * n + 1);
                 Some(n)
-            },
+            }
             _ => None,
         }
     }
@@ -71,12 +71,7 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        let ts = vec![
-            (1, 0),
-            (2, 1),
-            (5, 3),
-            (10, 9),
-        ];
+        let ts = vec![(1, 0), (2, 1), (5, 3), (10, 9)];
 
         for (input, expected) in ts {
             assert_eq!(expected, solve(input));
