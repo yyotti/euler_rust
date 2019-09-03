@@ -1,6 +1,7 @@
 //! [Problem 15](https://projecteuler.net/problem=15)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2015))
 
-use super::common::gcd;
+use super::common::prime_factors;
+use std::collections::HashMap;
 
 pub struct Solver;
 
@@ -13,28 +14,31 @@ impl super::Solver<u64> for Solver {
 }
 
 fn solve(input: u64) -> u64 {
-    // 真面目にやるなら全ルートを探索することだが、面倒なので公式を使う。
-    // ただし、普通に公式通りにやると途中でオーバーフローする可能性が高いので、
-    // 手書きで解く時のように先に約分をしきってから積をとる。
+    // 分子を素因数分解
+    let ns =
+        (input + 1..=input * 2)
+            .flat_map(prime_factors)
+            .fold(HashMap::new(), |mut acc, (p, e)| {
+                match acc.remove(&p) {
+                    Some(k) => acc.insert(p, k + e),
+                    _ => acc.insert(p, e),
+                };
+                acc
+            });
 
-    let mut ns: Vec<u64> = (input + 1..=input * 2).collect();
-    for mut r in 2..=input {
-        while r > 1 {
-            match ns
-                .iter()
-                .map(|&n| (n, gcd(n, r)))
-                .position(|(_, k)| k > 1)
-                .map(|j| (j, gcd(ns[j], r)))
-            {
-                Some((j, k)) => {
-                    ns[j] /= k;
-                    r /= k;
-                }
-                None => (),
-            };
-        }
-    }
-    ns.iter().product()
+    // 分母を素因数分解しつつ分子の要素から引いて残りの積をとる
+    (2..=input)
+        .flat_map(prime_factors)
+        .fold(ns, |mut acc, (p, e)| match acc.remove(&p) {
+            Some(k) if k != e => {
+                acc.insert(p, k - e);
+                acc
+            }
+            _ => acc,
+        })
+        .iter()
+        .map(|(&p, &e)| p.pow(e))
+        .product()
 }
 
 #[cfg(test)]
