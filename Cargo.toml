@@ -9,3 +9,4 @@ description = "Solver for Project Euler"
 
 [dependencies]
 clap = "2.33"
+chrono = "0.4"

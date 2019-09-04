@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate clap;
+extern crate chrono;
 
 use clap::Arg;
 use clap::ErrorKind;
@@ -25,6 +26,7 @@ fn main() {
         Box::new(p0016::Solver),
         Box::new(p0017::Solver),
         Box::new(p0018::Solver),
+        Box::new(p0019::Solver),
     ];
 
     let app = app_from_crate!().arg(
