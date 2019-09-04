@@ -24,11 +24,26 @@ const NUMS: &[&[u64]] = &[
 
 impl super::Solver<u64> for Solver {
     fn solve(&self) -> u64 {
-        solve(NUMS)
+        solve(NUMS, (0, 0))
     }
 }
 
-fn solve(triangle: &[&[u64]]) -> u64 {
+fn solve(triangle: &[&[u64]], p: (usize, usize)) -> u64 {
+    // 真面目に全ルートを探索して最大を探す。
+    // 問題文にある通り、この問題だからまだ可能なやり方。
+    if p.0 > triangle.len() - 1 || p.1 > triangle[p.0].len() - 1 {
+        return 0;
+    }
+
+    vec![(p.0 + 1, p.1), (p.0 + 1, p.1 + 1)]
+        .iter()
+        .map(|&(x, y)| solve(triangle, (x, y)) + triangle[p.0][p.1])
+        .max()
+        .unwrap_or(0)
+}
+
+#[allow(dead_code)]
+fn solve2(triangle: &[&[u64]]) -> u64 {
     // 逆から辿る。
     // 底辺から攻めていき、隣り合う2つの数字の大きい方だけ残した状態にして
     // 1つ上の段の数値に足す。それを繰り返すと最上段との和をとった際に最大値
@@ -58,6 +73,7 @@ mod tests {
             &[8, 5, 9, 3], //
         ];
 
-        assert_eq!(23, solve(triangle));
+        assert_eq!(23, solve(triangle, (0, 0)), "solve1");
+        assert_eq!(23, solve2(triangle), "solve2");
     }
 }
