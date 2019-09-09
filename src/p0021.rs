@@ -1,7 +1,7 @@
 //! [Problem 21](https://projecteuler.net/problem=21)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2021))
 
 use super::common::prime_factors;
-use std::iter::repeat;
+use super::common::get_prime_factor_sums;
 
 pub struct Solver;
 
@@ -16,23 +16,17 @@ impl super::Solver<u64> for Solver {
 fn solve(input: u64) -> u64 {
     // いちいち素因数分解してやるのは時間がかかりそうなので、エラトステネス風
     // に約数の和を計算してみる。
-    let m = input as usize;
-    let factors = (2..m).fold(repeat(1).take(m).collect::<Vec<usize>>(), |mut acc, i| {
-        (i + i..m).step_by(i).for_each(|j| acc[j] += i);
-        acc
-    });
+    let factors = get_prime_factor_sums(input);
 
-    (1..m)
+    (1..input)
         .filter_map(|i| {
             if i < 2 {
                 return None;
             }
 
-            let k = &factors[i];
-            if k < &m && k != &i && factors[*k] == i {
-                Some(i as u64)
-            } else {
-                None
+            match factors.get(&i) {
+                Some(k) if k != &i && factors.get(k) == Some(&i) => Some(i),
+                _ => None
             }
         })
         .sum()

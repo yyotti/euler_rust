@@ -83,6 +83,19 @@ pub fn multi(x: &Vec<u64>, y: u64) -> Vec<u64> {
     ds.into_iter().rev().collect()
 }
 
+pub fn get_prime_factor_sums(max: u64) -> HashMap<u64, u64> {
+    (1..=max).fold(HashMap::new(), |mut acc, i| {
+        (2..=max / i).for_each(|j| {
+            let n = i * j;
+            match acc.get(&n) {
+                Some(&k) => acc.insert(n, k + i),
+                _ => acc.insert(n, i),
+            };
+        });
+        acc
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -175,5 +188,34 @@ mod tests {
                 in_y
             );
         }
+    }
+
+    #[test]
+    fn test_get_prime_factor_sums() {
+        let expected = vec![
+            (2, 1),
+            (3, 1),
+            (4, 3),
+            (5, 1),
+            (6, 6),
+            (7, 1),
+            (8, 7),
+            (9, 4),
+            (10, 8),
+            (11, 1),
+            (12, 16),
+            (13, 1),
+            (14, 10),
+            (15, 9),
+            (16, 15),
+            (17, 1),
+            (18, 21),
+            (19, 1),
+            (20, 22),
+        ];
+        assert_eq!(
+            expected.iter().cloned().collect::<HashMap<u64, u64>>(),
+            get_prime_factor_sums(20)
+        );
     }
 }
