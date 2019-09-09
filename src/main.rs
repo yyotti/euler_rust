@@ -29,6 +29,7 @@ fn main() {
         Box::new(p0019::Solver),
         Box::new(p0020::Solver),
         Box::new(p0021::Solver),
+        Box::new(p0022::Solver),
     ];
 
     let app = app_from_crate!().arg(
