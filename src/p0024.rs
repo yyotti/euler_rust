@@ -12,6 +12,37 @@ impl super::Solver<u64> for Solver {
 }
 
 fn solve(input: &[u64], n: usize) -> u64 {
+    // input = [a1, a2, ... , ak] とし、 a1 < a2 < ... < ak を満たすものとする。
+    //
+    // a1を先頭に置いた場合、残りの(k-1)個の要素の並べ方は (k-1)! 通りある。
+    // この時、
+    //   (k-1)! < n であれば、a2以降を先頭に置いた場合に解がある
+    //   (k-1)! >= n であれば、a1を先頭に置いた場合に解がある
+    // まず先頭の要素がどれになるかを確定したら、同様の手順でa2以降の要素を
+    // 再帰的に確定していけばよい。
+
+    let mut perm: Vec<u64> = vec![];
+    let mut elems = input.to_vec();
+    let mut k = n as u64 - 1;
+    while elems.len() > 0 {
+        let f = fact(elems.len() - 1);
+        perm.push(elems.remove((k / f) as usize));
+        k %= f;
+    }
+
+    perm.iter().fold(0, |acc, d| acc * 10 + d)
+}
+
+fn fact(n: usize) -> u64 {
+    if n == 0 {
+        return 1;
+    }
+
+    n as u64 * fact(n - 1)
+}
+
+#[allow(dead_code)]
+fn solve2(input: &[u64], n: usize) -> u64 {
     // 普通に順列を作ってやる
     DicPerm::new(input)
         .skip(n - 1)
@@ -136,7 +167,23 @@ mod tests {
     }
 
     #[test]
+    fn test_fact() {
+        let ts = vec![
+            (0, 1),   // 0!
+            (1, 1),   // 1!
+            (2, 2),   // 2!
+            (3, 6),   // 3!
+            (4, 24),  // 4!
+            (5, 120), // 5!
+        ];
+        for (input, expected) in ts {
+            assert_eq!(expected, fact(input));
+        }
+    }
+
+    #[test]
     fn test_solve() {
-        assert_eq!(120, solve(&[0, 1, 2], 4));
+        assert_eq!(3021, solve(&[0, 1, 2, 3], 20));
+        assert_eq!(3021, solve2(&[0, 1, 2, 3], 20));
     }
 }
