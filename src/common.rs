@@ -96,6 +96,46 @@ pub fn get_prime_factor_sums(max: u64) -> HashMap<u64, u64> {
     })
 }
 
+pub fn sum_string_int(a: &str, b: &str) -> String {
+    let m = a.len().max(b.len());
+
+    let num1 = padding(a, '0', m - a.len(), true);
+    let num2 = padding(b, '0', m - b.len(), true);
+
+    let (mut s, c) = (0..m)
+        .rev()
+        .map(|i| {
+            (
+                num1[i..i + 1].parse::<u64>().unwrap(),
+                num2[i..i + 1].parse::<u64>().unwrap(),
+            )
+        })
+        .fold((String::from(""), 0), |(mut s, c), (n1, n2)| {
+            let k = n1 + n2 + c;
+            s.insert_str(0, &(k % 10).to_string());
+            (s, k / 10)
+        });
+
+    if c > 0 {
+        s.insert_str(0, &c.to_string());
+    }
+
+    s
+}
+
+fn padding(s: &str, c: char, n: usize, left: bool) -> String {
+    let mut new_s = String::new();
+    let (l, r) = if left { (n, 0) } else { (0, n) };
+    for _ in 0..l {
+        new_s.push(c);
+    }
+    new_s.push_str(s);
+    for _ in 0..r {
+        new_s.push(c);
+    }
+    new_s
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -217,5 +257,46 @@ mod tests {
             expected.iter().cloned().collect::<HashMap<u64, u64>>(),
             get_prime_factor_sums(20)
         );
+    }
+
+    #[test]
+    fn test_sum_string_int() {
+        let ts = vec![
+            (
+                "20849603980134001723930671666823555245252804609722",
+                "53503534226472524250874054075591789781264330331690",
+                "74353138206606525974804725742415345026517134941412",
+            ),
+            (
+                "77158542502016545090413245809786882778948721859617",
+                "72107838435069186155435662884062257473692284509516",
+                "149266380937085731245848908693849140252641006369133",
+            ),
+            ("0", "0", "0"),
+            ("1", "0", "1"),
+            ("1", "1", "2"),
+            ("5", "4", "9"),
+            ("5", "5", "10"),
+            ("14", "5", "19"),
+            ("345", "655", "1000"),
+        ];
+        for (a, b, expected) in ts {
+            assert_eq!(expected, sum_string_int(a, b));
+        }
+    }
+
+    #[test]
+    fn test_padding() {
+        let ts = vec![
+            ("", ' ', 0, true, ""),
+            ("", ' ', 0, false, ""),
+            ("", ' ', 1, true, " "),
+            ("", ' ', 2, false, "  "),
+            ("a", 'b', 3, true, "bbba"),
+            ("a", 'b', 2, false, "abb"),
+        ];
+        for (s, c, n, left, expected) in ts {
+            assert_eq!(expected, padding(s, c, n, left));
+        }
     }
 }
