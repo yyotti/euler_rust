@@ -5,6 +5,7 @@ use std::collections::HashMap;
 
 pub struct Solver;
 
+// TODO 固定値を与えられているのはなんか気持ち悪い
 const MAX_SUM: u64 = 28123;
 
 impl super::Solver<u64> for Solver {
