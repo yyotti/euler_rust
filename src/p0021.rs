@@ -1,24 +1,24 @@
 //! [Problem 21](https://projecteuler.net/problem=21)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2021))
 
-use super::common::prime_factors;
 use super::common::get_prime_factor_sums;
+use super::common::prime_factors;
 
 pub struct Solver;
 
-const NUM: u64 = 10_000;
+const NUM: usize = 10_000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     // いちいち素因数分解してやるのは時間がかかりそうなので、エラトステネス風
     // に約数の和を計算してみる。
-    let factors = get_prime_factor_sums(input);
+    let factors = get_prime_factor_sums(input as u64);
 
-    (1..input)
+    (1..input as u64)
         .filter_map(|i| {
             if i < 2 {
                 return None;
@@ -26,19 +26,21 @@ fn solve(input: u64) -> u64 {
 
             match factors.get(&i) {
                 Some(k) if k != &i && factors.get(k) == Some(&i) => Some(i),
-                _ => None
+                _ => None,
             }
         })
-        .sum()
+        .sum::<u64>() as i64
 }
 
 #[allow(dead_code)]
-fn solve2(input: u64) -> u64 {
+fn solve2(input: usize) -> i64 {
     // 素直にやる
-    (1..input).filter(|&n| has_amicable_number(n)).sum()
+    (1..input)
+        .filter(|&n| has_amicable_number(n))
+        .sum::<usize>() as i64
 }
 
-fn has_amicable_number(n: u64) -> bool {
+fn has_amicable_number(n: usize) -> bool {
     let d = sum_factors(n);
     if d < n || d - n == n {
         // d - n == n の場合は完全数なので false
@@ -49,14 +51,14 @@ fn has_amicable_number(n: u64) -> bool {
     e > d - n && e - (d - n) == n
 }
 
-fn sum_factors(n: u64) -> u64 {
+fn sum_factors(n: usize) -> usize {
     if n < 2 {
         return 0;
     }
 
-    prime_factors(n)
-        .iter()
-        .fold(1, |acc, (p, e)| acc * (p.pow(e + 1) - 1) / (p - 1))
+    prime_factors(n as u64).iter().fold(1, |acc, (&p, e)| {
+        acc * (p.pow((e + 1) as u32) - 1) as usize / (p as usize - 1)
+    })
 }
 
 #[cfg(test)]

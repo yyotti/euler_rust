@@ -2,17 +2,17 @@
 
 pub struct Solver;
 
-const NUM: u64 = 1000;
+const NUM: usize = 1000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     // つまらないのでスキップ
-    input
+    input as i64
 }
 
 #[cfg(test)]

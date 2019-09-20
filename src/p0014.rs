@@ -2,32 +2,32 @@
 
 pub struct Solver;
 
-const NUM: u64 = 1_000_000;
+const NUM: usize = 1_000_000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     (1..input)
         .max_by_key(|&x| Collatz::new(x).count())
-        .unwrap_or(0)
+        .unwrap_or(0) as i64
 }
 
 struct Collatz {
-    n: Option<u64>,
+    n: Option<usize>,
 }
 
 impl Collatz {
-    fn new(n: u64) -> Collatz {
+    fn new(n: usize) -> Collatz {
         Collatz { n: Some(n) }
     }
 }
 
 impl Iterator for Collatz {
-    type Item = u64;
+    type Item = usize;
 
     fn next(&mut self) -> Option<Self::Item> {
         match self.n {
@@ -71,7 +71,12 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        let ts = vec![(1, 0), (2, 1), (5, 3), (10, 9)];
+        let ts = vec![
+            (1, 0),  //
+            (2, 1),  //
+            (5, 3),  //
+            (10, 9), //
+        ];
 
         for (input, expected) in ts {
             assert_eq!(expected, solve(input));

@@ -2,15 +2,15 @@
 
 pub struct Solver;
 
-const NUM: u64 = 100;
+const NUM: usize = 100;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     // 素直にやるなら
     //   1^2 + 2^2 + ... + n^2
     // と
@@ -38,7 +38,7 @@ fn solve(input: u64) -> u64 {
     //        = n(3n^3 + 2n^2 - 3n - 2)/12
     //        = n(n+1)(3n^2 - n - 2)/12
     //        = n(n+1)(n-1)(3n+2)/12
-    input * (input + 1) * (input - 1) * (3 * input + 2) / 12
+    (input * (input + 1) * (input - 1) * (3 * input + 2) / 12) as i64
 }
 
 #[cfg(test)]
@@ -46,7 +46,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn find_sum_square_difference() {
+    fn test_solve() {
         assert_eq!(2640, solve(10))
     }
 }

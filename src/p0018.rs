@@ -6,7 +6,7 @@ use std::iter::repeat;
 
 pub struct Solver;
 
-const NUMS: &[&[u64]] = &[
+const NUMS: &[&[usize]] = &[
     &[75],                                                         //
     &[95, 64],                                                     //
     &[17, 47, 82],                                                 //
@@ -24,13 +24,13 @@ const NUMS: &[&[u64]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23], //
 ];
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUMS)
     }
 }
 
-fn solve(triangle: &[&[u64]]) -> u64 {
+fn solve(triangle: &[&[usize]]) -> i64 {
     // ダイクストラ法でやってみる。
     // 頂点を始点、底辺の各マスを終点として、最もコストがかかる点を求めればよい。
     // 今回は経路自体は問題にしていないので省略する。
@@ -65,17 +65,17 @@ fn solve(triangle: &[&[u64]]) -> u64 {
             }
         })
         .max()
-        .unwrap()
+        .unwrap() as i64
 }
 
 #[allow(dead_code)]
-fn solve2(triangle: &[&[u64]]) -> u64 {
+fn solve2(triangle: &[&[usize]]) -> i64 {
     // 逆から辿る。
     // 底辺から攻めていき、隣り合う2つの数字の大きい方だけ残した状態にして
     // 1つ上の段の数値に足す。それを繰り返すと最上段との和をとった際に最大値
     // となっている。
     triangle.iter().rev().fold(
-        repeat(0u64).take(triangle.len() + 1).collect::<Vec<u64>>(),
+        repeat(0).take(triangle.len() + 1).collect::<Vec<usize>>(),
         |acc, row| {
             acc.iter()
                 .scan(acc.iter().skip(1), |acc, v| acc.next().map(|a| a.max(v)))
@@ -83,11 +83,11 @@ fn solve2(triangle: &[&[u64]]) -> u64 {
                 .map(|(a, b)| a + b)
                 .collect()
         },
-    )[0]
+    )[0] as i64
 }
 
 #[allow(dead_code)]
-fn solve3(triangle: &[&[u64]], p: (usize, usize)) -> u64 {
+fn solve3(triangle: &[&[usize]], p: (usize, usize)) -> i64 {
     // 真面目に全ルートを探索して最大を探す。
     // 問題文にある通り、この問題だからまだ可能なやり方。
     if p.0 > triangle.len() - 1 || p.1 > triangle[p.0].len() - 1 {
@@ -96,9 +96,9 @@ fn solve3(triangle: &[&[u64]], p: (usize, usize)) -> u64 {
 
     vec![(p.0 + 1, p.1), (p.0 + 1, p.1 + 1)]
         .iter()
-        .map(|&(x, y)| solve3(triangle, (x, y)) + triangle[p.0][p.1])
+        .map(|&(x, y)| solve3(triangle, (x, y)) as u64 + triangle[p.0][p.1] as u64)
         .max()
-        .unwrap_or(0)
+        .unwrap_or(0) as i64
 }
 
 #[cfg(test)]
@@ -107,7 +107,7 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        let triangle: &[&[u64]] = &[
+        let triangle: &[&[usize]] = &[
             &[3],          //
             &[7, 4],       //
             &[2, 4, 6],    //

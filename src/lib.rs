@@ -1,5 +1,5 @@
-pub trait Solver<T> {
-    fn solve(&self) -> T;
+pub trait Solver {
+    fn solve(&self) -> i64;
 }
 
 pub mod common;

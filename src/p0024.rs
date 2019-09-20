@@ -5,13 +5,13 @@ pub struct Solver;
 const NUMS: &[u64] = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const N: usize = 1_000_000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUMS, N)
     }
 }
 
-fn solve(input: &[u64], n: usize) -> u64 {
+fn solve(input: &[u64], n: usize) -> i64 {
     // input = [a1, a2, ... , ak] とし、 a1 < a2 < ... < ak を満たすものとする。
     //
     // a1を先頭に置いた場合、残りの(k-1)個の要素の並べ方は (k-1)! 通りある。
@@ -30,7 +30,7 @@ fn solve(input: &[u64], n: usize) -> u64 {
         k %= f;
     }
 
-    perm.iter().fold(0, |acc, d| acc * 10 + d)
+    perm.iter().fold(0, |acc, d| acc * 10 + d) as i64
 }
 
 fn fact(n: usize) -> u64 {

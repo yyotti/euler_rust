@@ -6,13 +6,13 @@ pub struct Solver;
 
 const NUM: usize = 1_000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(n: usize) -> u64 {
+fn solve(n: usize) -> i64 {
     // 筆算を模倣して循環部を求める。
     //
     // 例として 1/7 の循環部を求めてみる。
@@ -26,14 +26,14 @@ fn solve(n: usize) -> u64 {
     // ここで最初に戻ったので、循環部は 142857 となる。
 
     (2..n)
-        .map(|d| (d as u64, cycle_len(d as u64)))
+        .map(|d| (d, cycle_len(d)))
         .max_by(|(_, l1), (_, l2)| l1.cmp(l2))
         .map(|t| t.0)
-        .unwrap()
+        .unwrap() as i64
 }
 
-fn cycle_len(d: u64) -> u64 {
-    let mut l = 0u64;
+fn cycle_len(d: usize) -> usize {
+    let mut l = 0usize;
     let mut cache = HashMap::new();
     let mut k = 1;
     while k > 0 && !cache.contains_key(&k) {

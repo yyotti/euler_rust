@@ -23,23 +23,20 @@ const DIGITS: &str = "73167176531330624919225119674426574742355349194934\
                       05886116467109405077541002256983155200055935729725\
                       71636269561882670428252483600823257530420752963450";
 
-const NUM: u64 = 13;
+const NUM: usize = 13;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
-    let ds: Vec<_> = DIGITS
+fn solve(input: usize) -> i64 {
+    let ds = DIGITS
         .chars()
-        .map(|c| (c as u64 - '0' as u64) as u64)
-        .collect();
-    let ds = ds.as_slice();
-    (0..(ds.len() - input as usize)).fold(0, |acc, m| {
-        acc.max(ds[m..(m + input as usize)].iter().product())
-    })
+        .map(|c| c as i64 - '0' as i64)
+        .collect::<Vec<_>>();
+    (0..ds.len() - input).fold(0, |acc, m| acc.max(ds[m..m + input].iter().product()))
 }
 
 #[cfg(test)]
@@ -47,7 +44,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn find_largest_product() {
+    fn test_solve() {
         assert_eq!(5832, solve(4));
     }
 }

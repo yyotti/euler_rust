@@ -4,20 +4,20 @@ use super::common::multi;
 
 pub struct Solver;
 
-const NUM: u64 = 100;
+const NUM: usize = 100;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     // n!も2^xと同様にnが大きくなるとオーバーフローするので、手動掛け算でやる。
     (1..=input)
-        .fold(vec![1], |acc, n| multi(&acc, n))
+        .fold(vec![1], |acc, n| multi(&acc, n as u64))
         .iter()
-        .sum()
+        .sum::<u64>() as i64
 }
 
 #[cfg(test)]

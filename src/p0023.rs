@@ -6,26 +6,31 @@ use std::collections::HashMap;
 pub struct Solver;
 
 // TODO 固定値を与えられているのはなんか気持ち悪い
-const MAX_SUM: u64 = 28123;
+const MAX_SUM: usize = 28123;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(MAX_SUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     // エラトステネスの篩の要領でやれると思う
-    let abundant_numbers: HashMap<_, _> = get_prime_factor_sums(input)
+    let abundant_numbers: HashMap<_, _> = get_prime_factor_sums(input as u64)
         .into_iter()
         .filter(|(i, f)| i < f)
         .collect();
-    (1..=input).map(|i| {
-        match abundant_numbers.iter().find(|(&n, _)| i > n && abundant_numbers.contains_key(&(i - n))) {
-            Some(_) => 0,
-            _ => i,
-        }
-    }).sum()
+    (1..=input as u64)
+        .map(|i| {
+            match abundant_numbers
+                .iter()
+                .find(|(&n, _)| i > n && abundant_numbers.contains_key(&(i - n)))
+            {
+                Some(_) => 0,
+                _ => i,
+            }
+        })
+        .sum::<u64>() as i64
 }
 
 #[cfg(test)]

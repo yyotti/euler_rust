@@ -2,16 +2,18 @@
 
 pub struct Solver;
 
-const MAX_NUM: u64 = 1000;
+const MAX_NUM: usize = 1000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(MAX_NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
-    (1..input).filter(|n| n % 3 == 0 || n % 5 == 0).sum()
+fn solve(input: usize) -> i64 {
+    (1..input)
+        .filter(|n| n % 3 == 0 || n % 5 == 0)
+        .sum::<usize>() as i64
 }
 
 #[cfg(test)]
@@ -19,18 +21,18 @@ mod tests {
     use super::*;
 
     #[test]
-    fn filter_mod3_mod5() {
+    fn test_solve() {
         let ts = vec![
-            (0, 0),
-            (1, 0),
-            (2, 0),
-            (3, 0),
-            (4, 3),
-            (5, 3),
-            (6, 8),
-            (7, 14),
-            (8, 14),
-            (9, 14),
+            (0, 0),  //
+            (1, 0),  //
+            (2, 0),  //
+            (3, 0),  //
+            (4, 3),  //
+            (5, 3),  //
+            (6, 8),  //
+            (7, 14), //
+            (8, 14), //
+            (9, 14), //
         ];
 
         for (input, expected) in ts {

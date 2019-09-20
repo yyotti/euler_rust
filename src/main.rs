@@ -7,7 +7,7 @@ use clap::ErrorKind;
 use euler_rust::*;
 
 fn main() {
-    let solvers: Vec<Box<Solver<_>>> = vec![
+    let solvers: Vec<Box<Solver>> = vec![
         Box::new(p0001::Solver),
         Box::new(p0002::Solver),
         Box::new(p0003::Solver),

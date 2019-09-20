@@ -4,11 +4,13 @@ use chrono::prelude::*;
 
 pub struct Solver;
 
+// FIXME 日時ライブラリを使わない形で書き直す！
+
 const FROM: (i32, u32) = (1901, 1);
 const TO: (i32, u32) = (2000, 12);
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(
             NaiveDate::from_ymd(FROM.0, FROM.1, 1),
             NaiveDate::from_ymd(TO.0, TO.1, 1),
@@ -16,12 +18,12 @@ impl super::Solver<u64> for Solver {
     }
 }
 
-fn solve(f: NaiveDate, t: NaiveDate) -> u64 {
+fn solve(f: NaiveDate, t: NaiveDate) -> i64 {
     // 1つずつ月をずらしながら調べるだけ
     MonthRange::new(f)
         .take_while(|&d| d <= t)
         .filter(|&d| d.day() == 1 && d.weekday() == Weekday::Sun)
-        .count() as u64
+        .count() as i64
 }
 
 struct MonthRange {

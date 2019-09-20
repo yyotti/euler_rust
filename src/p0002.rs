@@ -2,19 +2,19 @@
 
 pub struct Solver;
 
-const MAX_NUM: u64 = 4_000_000;
+const MAX_NUM: usize = 4_000_000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(MAX_NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     Fibonacci::new(1, 2)
-        .take_while(|f| f <= &input)
+        .take_while(|f| f <= &(input as u64))
         .filter(|f| f % 2 == 0)
-        .sum()
+        .sum::<u64>() as i64
 }
 
 struct Fibonacci {
@@ -46,7 +46,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn fibonacci_new() {
+    fn test_fibonacci_new() {
         let fib = Fibonacci::new(0, 1);
         assert_eq!((0, 1), (fib.a1, fib.a2));
 
@@ -55,7 +55,7 @@ mod tests {
     }
 
     #[test]
-    fn fibonacci_next() {
+    fn test_fibonacci_next() {
         let mut fib = Fibonacci { a1: 0, a2: 1 };
         for expected in vec![0, 1, 1, 2, 3, 5, 8, 13, 21, 34] {
             let f = fib.next();
@@ -64,8 +64,13 @@ mod tests {
     }
 
     #[test]
-    fn sum_even_fibonacci_numbers() {
-        let ts = vec![(10, 10), (100, 44), (1000, 798), (10000, 3382)];
+    fn test_solve() {
+        let ts = vec![
+            (10, 10),      //
+            (100, 44),     //
+            (1000, 798),   //
+            (10000, 3382), //
+        ];
 
         for (input, expected) in ts {
             assert_eq!(expected, solve(input));

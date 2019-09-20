@@ -5,30 +5,29 @@ use std::collections::HashMap;
 
 pub struct Solver;
 
-const NUM: u64 = 20;
+const NUM: usize = 20;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
+fn solve(input: usize) -> i64 {
     // 分子を素因数分解
-    let ns =
-        (input + 1..=input * 2)
-            .flat_map(prime_factors)
-            .fold(HashMap::new(), |mut acc, (p, e)| {
-                match acc.remove(&p) {
-                    Some(k) => acc.insert(p, k + e),
-                    _ => acc.insert(p, e),
-                };
-                acc
-            });
+    let ns = (input + 1..=input * 2)
+        .flat_map(|i| prime_factors(i as u64))
+        .fold(HashMap::new(), |mut acc, (p, e)| {
+            match acc.remove(&p) {
+                Some(k) => acc.insert(p, k + e),
+                _ => acc.insert(p, e),
+            };
+            acc
+        });
 
     // 分母を素因数分解しつつ分子の要素から引いて残りの積をとる
     (2..=input)
-        .flat_map(prime_factors)
+        .flat_map(|i| prime_factors(i as u64))
         .fold(ns, |mut acc, (p, e)| match acc.remove(&p) {
             Some(k) if k != e => {
                 acc.insert(p, k - e);
@@ -37,8 +36,8 @@ fn solve(input: u64) -> u64 {
             _ => acc,
         })
         .iter()
-        .map(|(&p, &e)| p.pow(e))
-        .product()
+        .map(|(&p, &e)| p.pow(e as u32))
+        .product::<u64>() as i64
 }
 
 #[cfg(test)]
@@ -47,7 +46,13 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        let ts = vec![(1, 2), (2, 6), (3, 20), (4, 70), (5, 252)];
+        let ts = vec![
+            (1, 2),   //
+            (2, 6),   //
+            (3, 20),  //
+            (4, 70),  //
+            (5, 252), //
+        ];
 
         for (input, expected) in ts {
             assert_eq!(expected, solve(input));

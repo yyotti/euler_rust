@@ -38,7 +38,8 @@ impl Iterator for Primes {
     }
 }
 
-pub fn prime_factors(n: u64) -> HashMap<u64, u32> {
+// TODO ジェネリックにできないか？
+pub fn prime_factors(n: u64) -> HashMap<u64, usize> {
     let mut map = HashMap::new();
     let mut m = n;
     for p in Primes::new() {
@@ -54,6 +55,7 @@ pub fn prime_factors(n: u64) -> HashMap<u64, u32> {
     map
 }
 
+// TODO ジェネリックにできないか？
 pub fn gcd(a: u64, b: u64) -> u64 {
     if a < b {
         return gcd(b, a);
@@ -66,6 +68,7 @@ pub fn gcd(a: u64, b: u64) -> u64 {
     gcd(b, a % b)
 }
 
+// TODO ジェネリックにできないか？もしくはVec<usize>とかでいいのでは？
 pub fn multi(x: &Vec<u64>, y: u64) -> Vec<u64> {
     if x.is_empty() {
         return vec![0];
@@ -83,6 +86,7 @@ pub fn multi(x: &Vec<u64>, y: u64) -> Vec<u64> {
     ds.into_iter().rev().collect()
 }
 
+// TODO ジェネリックにできないか？
 pub fn get_prime_factor_sums(max: u64) -> HashMap<u64, u64> {
     (1..=max).fold(HashMap::new(), |mut acc, i| {
         (2..=max / i).for_each(|j| {

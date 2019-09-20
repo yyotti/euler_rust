@@ -6,13 +6,13 @@ pub struct Solver;
 
 const NUM: usize = 1_000;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(n: usize) -> u64 {
+fn solve(n: usize) -> i64 {
     // (参考) https://blog.miz-ar.info/2019/01/fast-fibonacci/
     //
     // フィボナッチ数列には一般項が存在する。
@@ -54,11 +54,11 @@ fn solve(n: usize) -> u64 {
     }
 
     let k = n as f64;
-    ((k - 1.0 + 5f64.log10() / 2.0) / ((1.0 + 5f64.sqrt()).log10() - 2f64.log10())).ceil() as u64
+    ((k - 1.0 + 5f64.log10() / 2.0) / ((1.0 + 5f64.sqrt()).log10() - 2f64.log10())).ceil() as i64
 }
 
 #[allow(dead_code)]
-fn solve2(n: usize) -> u64 {
+fn solve2(n: usize) -> i64 {
     // 1000桁は普通の数値型では表せないので、文字列演算でやる
     let mut a1 = String::from("1");
     let mut a2 = String::from("1");

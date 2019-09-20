@@ -4,7 +4,7 @@ use super::common::sum_string_int;
 
 pub struct Solver;
 
-const NUMS: [&str; 100] = [
+const NUMS: &[&str] = &[
     "37107287533902102798797998220837590246510135740250",
     "46376937677490009712648124896970078050417018260538",
     "74324986199524741059474233309513058123726617309629",
@@ -107,15 +107,16 @@ const NUMS: [&str; 100] = [
     "53503534226472524250874054075591789781264330331690",
 ];
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve()
     }
 }
 
-fn solve() -> u64 {
-    NUMS.iter().fold(String::from("0"), |acc, n| sum_string_int(&acc, n))[..10]
-        .parse::<u64>()
+fn solve() -> i64 {
+    NUMS.iter()
+        .fold(String::from("0"), |acc, n| sum_string_int(&acc, n))[..10]
+        .parse::<i64>()
         .unwrap()
 }
 

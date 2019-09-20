@@ -2,16 +2,16 @@
 
 pub struct Solver;
 
-const NUM: u32 = 3;
+const NUM: usize = 3;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u32) -> u64 {
-    let m = input - 1;
+fn solve(input: usize) -> i64 {
+    let m = input as u32 - 1;
     let min = 10u64.pow(m);
     let max = 10u64.pow(m + 1);
     (min..max)
@@ -19,7 +19,7 @@ fn solve(input: u32) -> u64 {
         .flat_map(|n| (min..(n + 1)).rev().map(move |m| n * m))
         .filter(|&l| is_palindrome(digits(l).as_slice()))
         .max()
-        .unwrap()
+        .unwrap() as i64
 }
 
 fn is_palindrome<T: std::cmp::Eq>(arr: &[T]) -> bool {
@@ -46,26 +46,29 @@ mod tests {
     use super::*;
 
     #[test]
-    fn find_max_palindrome_number() {
-        let ts = vec![(1, 9), (2, 9009)];
+    fn test_solve() {
+        let ts = vec![
+            (1, 9),    //
+            (2, 9009), //
+        ];
         for (input, expected) in ts {
             assert_eq!(expected, solve(input), "{}", input)
         }
     }
 
     #[test]
-    fn check_palindrome() {
+    fn test_is_palindrome() {
         let ts = vec![
-            (vec![], true),
-            (vec![0], true),
-            (vec![9], true),
-            (vec![1, 9], false),
-            (vec![2, 2], true),
-            (vec![1, 2, 3], false),
-            (vec![3, 2, 3], true),
-            (vec![1, 0, 1, 2], false),
-            (vec![2, 0, 1, 2], false),
-            (vec![2, 1, 1, 2], true),
+            (vec![], true),            //
+            (vec![0], true),           //
+            (vec![9], true),           //
+            (vec![1, 9], false),       //
+            (vec![2, 2], true),        //
+            (vec![1, 2, 3], false),    //
+            (vec![3, 2, 3], true),     //
+            (vec![1, 0, 1, 2], false), //
+            (vec![2, 0, 1, 2], false), //
+            (vec![2, 1, 1, 2], true),  //
         ];
         for (input, expected) in ts {
             assert_eq!(expected, is_palindrome(input.as_slice()), "{:?}", input)
@@ -73,29 +76,29 @@ mod tests {
     }
 
     #[test]
-    fn split_numbers() {
+    fn test_digits() {
         let ts = vec![
-            (0, vec![0]),
-            (1, vec![1]),
-            (2, vec![2]),
-            (3, vec![3]),
-            (4, vec![4]),
-            (5, vec![5]),
-            (6, vec![6]),
-            (7, vec![7]),
-            (8, vec![8]),
-            (9, vec![9]),
-            (10, vec![1, 0]),
-            (11, vec![1, 1]),
-            (12, vec![1, 2]),
-            (21, vec![2, 1]),
-            (22, vec![2, 2]),
-            (100, vec![1, 0, 0]),
-            (101, vec![1, 0, 1]),
-            (120, vec![1, 2, 0]),
-            (121, vec![1, 2, 1]),
-            (1001, vec![1, 0, 0, 1]),
-            (1221, vec![1, 2, 2, 1]),
+            (0, vec![0]),             //
+            (1, vec![1]),             //
+            (2, vec![2]),             //
+            (3, vec![3]),             //
+            (4, vec![4]),             //
+            (5, vec![5]),             //
+            (6, vec![6]),             //
+            (7, vec![7]),             //
+            (8, vec![8]),             //
+            (9, vec![9]),             //
+            (10, vec![1, 0]),         //
+            (11, vec![1, 1]),         //
+            (12, vec![1, 2]),         //
+            (21, vec![2, 1]),         //
+            (22, vec![2, 2]),         //
+            (100, vec![1, 0, 0]),     //
+            (101, vec![1, 0, 1]),     //
+            (120, vec![1, 2, 0]),     //
+            (121, vec![1, 2, 1]),     //
+            (1001, vec![1, 0, 0, 1]), //
+            (1221, vec![1, 2, 2, 1]), //
         ];
         for (input, expected) in ts {
             assert_eq!(expected, digits(input))

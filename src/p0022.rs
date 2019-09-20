@@ -6,17 +6,17 @@ pub struct Solver;
 
 const FILE_PATH: &str = "data/p022_names.txt";
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(FILE_PATH)
     }
 }
 
-fn solve(input: &str) -> u64 {
+fn solve(input: &str) -> i64 {
     let mut names = load_names(input);
     names.sort();
     names.iter().enumerate().fold(0, |acc, (i, name)| {
-        acc + (i as u64 + 1) * calc_name_score(name)
+        acc + (i as i64 + 1) * calc_name_score(name) as i64
     })
 }
 
@@ -31,8 +31,8 @@ fn load_names(file: &str) -> Vec<String> {
     }
 }
 
-fn calc_name_score(s: &str) -> u64 {
-    s.chars().map(|c| c as u64 - 'A' as u64 + 1).sum()
+fn calc_name_score(s: &str) -> usize {
+    s.chars().map(|c| c as usize - 'A' as usize + 1).sum()
 }
 
 #[cfg(test)]

@@ -2,27 +2,27 @@
 
 pub struct Solver;
 
-use super::common;
+use super::common::prime_factors;
 use std::collections::HashMap;
 
-const NUM: u64 = 20;
+const NUM: usize = 20;
 
-impl super::Solver<u64> for Solver {
-    fn solve(&self) -> u64 {
+impl super::Solver for Solver {
+    fn solve(&self) -> i64 {
         solve(NUM)
     }
 }
 
-fn solve(input: u64) -> u64 {
-    (1..input + 1)
-        .flat_map(common::prime_factors)
+fn solve(input: usize) -> i64 {
+    (1..input as u64 + 1)
+        .flat_map(prime_factors)
         .fold(HashMap::new(), |mut acc, (k, v)| {
             acc.insert(k, *acc.get(&k).unwrap_or(&0).max(&v));
             acc
         })
         .iter()
-        .map(|(k, &v)| k.pow(v))
-        .product()
+        .map(|(k, &v)| k.pow(v as u32))
+        .product::<u64>() as i64
 }
 
 #[cfg(test)]
@@ -30,7 +30,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn find_smallest_mutiple() {
+    fn test_solve() {
         assert_eq!(2520, solve(10))
     }
 }
