@@ -1,6 +1,6 @@
 //! [Problem 10](https://projecteuler.net/problem=10)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2010))
 
-use super::common::Primes;
+use super::common::sieve;
 
 pub struct Solver;
 
@@ -13,9 +13,7 @@ impl super::Solver for Solver {
 }
 
 fn solve(input: usize) -> i64 {
-    Primes::new()
-        .take_while(|p| p <= &(input as u64))
-        .sum::<u64>() as i64
+    sieve(input).iter().sum::<u64>() as i64
 }
 
 #[cfg(test)]

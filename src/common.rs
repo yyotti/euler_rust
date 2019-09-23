@@ -39,9 +39,8 @@ impl Iterator for Primes {
 }
 
 pub fn sieve(m: usize) -> Vec<u64> {
-    let v: Vec<usize> = (0..=m).collect();
     (0..=m)
-        .fold(v, |mut acc, i| {
+        .fold((0..=m).collect::<Vec<usize>>(), |mut acc, i| {
             if i < 2 {
                 return acc;
             }
@@ -56,19 +55,22 @@ pub fn sieve(m: usize) -> Vec<u64> {
 
 // TODO ジェネリックにできないか？
 pub fn prime_factors(n: u64) -> HashMap<u64, usize> {
-    let mut map = HashMap::new();
-    let mut m = n;
-    for p in Primes::new() {
-        if p > m {
-            break;
-        }
+    Primes::new()
+        .scan(n, |m, p| {
+            if p > *m {
+                return None;
+            }
 
-        while m % p == 0 {
-            map.insert(p, map.get(&p).unwrap_or(&0) + 1);
-            m /= p;
-        }
-    }
-    map
+            let mut c = 0;
+            while *m % p == 0 {
+                c += 1;
+                *m /= p;
+            }
+
+            Some((p, c))
+        })
+        .filter(|&(_, c)| c > 0)
+        .collect()
 }
 
 // TODO ジェネリックにできないか？
