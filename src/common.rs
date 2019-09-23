@@ -38,6 +38,22 @@ impl Iterator for Primes {
     }
 }
 
+pub fn sieve(m: usize) -> Vec<u64> {
+    let v: Vec<usize> = (0..=m).collect();
+    (0..=m)
+        .fold(v, |mut acc, i| {
+            if i < 2 {
+                return acc;
+            }
+            (i + i..acc.len()).step_by(i).for_each(|i| acc[i] /= i);
+            acc
+        })
+        .iter()
+        .filter(|&&p| p >= 2)
+        .map(|&p| p as u64)
+        .collect()
+}
+
 // TODO ジェネリックにできないか？
 pub fn prime_factors(n: u64) -> HashMap<u64, usize> {
     let mut map = HashMap::new();
@@ -161,6 +177,11 @@ mod tests {
             let p = primes.next();
             assert_eq!(Some(expected), p);
         }
+    }
+
+    #[test]
+    fn test_sieve() {
+        assert_eq!(vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29], sieve(30));
     }
 
     #[test]
