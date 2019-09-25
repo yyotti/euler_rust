@@ -87,6 +87,7 @@ pub fn gcd(a: u64, b: u64) -> u64 {
 }
 
 // TODO ジェネリックにできないか？もしくはVec<usize>とかでいいのでは？
+// TODO scanで何とかできそうな気はする
 pub fn multi(x: &Vec<u64>, y: u64) -> Vec<u64> {
     if x.is_empty() {
         return vec![0];

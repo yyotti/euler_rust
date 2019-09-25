@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate clap;
-extern crate chrono;
 
 use clap::Arg;
 use clap::ErrorKind;
