@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::ops::Rem;
 
 pub struct Primes {
     ps: Vec<u64>,
@@ -73,13 +74,15 @@ pub fn prime_factors(n: u64) -> HashMap<u64, usize> {
         .collect()
 }
 
-// TODO ジェネリックにできないか？
-pub fn gcd(a: u64, b: u64) -> u64 {
+pub fn gcd<T>(a: T, b: T) -> T
+where
+    T: PartialOrd + Default + Rem<Output = T> + Copy,
+{
     if a < b {
         return gcd(b, a);
     }
 
-    if b == 0 {
+    if b == T::default() {
         return a;
     }
 

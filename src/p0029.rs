@@ -49,7 +49,7 @@ fn solve(a_max: usize, b_max: usize) -> i64 {
                 let k = pf
                     .iter()
                     .map(|(_, &e)| e)
-                    .fold(0, |acc, e| gcd(acc, e as u64));
+                    .fold(0, |acc, e| gcd(acc, e));
                 (
                     pf.iter()
                         .fold(1, |acc, (p, &e)| acc * p.pow(e as u32 / k as u32)),
