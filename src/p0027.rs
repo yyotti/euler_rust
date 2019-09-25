@@ -27,8 +27,6 @@ fn solve(a: usize, b: usize) -> i64 {
     //   |a| < 2*sqrt(b)
     // である。
 
-    // TODO もっと深く考察すると更に範囲が絞れると思う
-
     sieve(b)
         .iter()
         .map(|&p| p as i64)
