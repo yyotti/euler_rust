@@ -4,7 +4,7 @@ use super::common::prime_factors;
 
 pub struct Solver;
 
-const NUM: usize = 600_851_475_143;
+const NUM: u64 = 600_851_475_143;
 
 impl super::Solver for Solver {
     fn solve(&self) -> i64 {
@@ -12,8 +12,8 @@ impl super::Solver for Solver {
     }
 }
 
-fn solve(input: usize) -> i64 {
-    *prime_factors(input as u64).keys().max().unwrap_or(&1) as i64
+fn solve(input: u64) -> i64 {
+    *prime_factors(input).keys().max().unwrap_or(&1) as i64
 }
 
 #[cfg(test)]

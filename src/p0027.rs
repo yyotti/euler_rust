@@ -1,7 +1,7 @@
 //! [Problem 27](https://projecteuler.net/problem=27)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2027))
 
 use super::common::sieve;
-use super::common::Primes;
+use super::common::primes;
 
 pub struct Solver;
 
@@ -74,7 +74,7 @@ fn is_prime(n: u64) -> bool {
         return false;
     }
 
-    Primes::new()
+    primes()
         .take_while(|&p| p as f64 <= (n as f64).sqrt())
         .all(|p| n % p != 0)
 }

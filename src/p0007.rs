@@ -1,6 +1,6 @@
 //! [Problem 7](https://projecteuler.net/problem=7)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%207))
 
-use super::common::Primes;
+use super::common::primes;
 
 pub struct Solver;
 
@@ -13,7 +13,7 @@ impl super::Solver for Solver {
 }
 
 fn solve(input: usize) -> i64 {
-    Primes::new().skip(input - 1).next().unwrap() as i64
+    primes().skip(input - 1).next().unwrap() as i64
 }
 
 #[cfg(test)]

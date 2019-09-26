@@ -1,42 +1,25 @@
 use std::collections::HashMap;
 use std::ops::Rem;
 
-pub struct Primes {
-    ps: Vec<u64>,
-    next: u64,
-}
+// TODO ジェネリックにできないか？
+pub fn primes() -> Box<Iterator<Item = u64>> {
+    let mut multiples = HashMap::new();
+    let iter = (3..).step_by(2).filter_map(move |i| {
+        let (prime_or_none, factor) = match multiples.remove(&i) {
+            Some(f) => (None, f),
+            None => (Some(i), i * 2),
+        };
 
-impl Primes {
-    pub fn new() -> Primes {
-        Primes {
-            ps: vec![2],
-            next: 2,
-        }
-    }
-}
+        (1..)
+            .map(|j| i + j * factor)
+            .skip_while(|m| multiples.contains_key(m))
+            .next()
+            .map(|m| multiples.insert(m, factor));
 
-impl Iterator for Primes {
-    type Item = u64;
+        prime_or_none
+    });
 
-    fn next(&mut self) -> Option<Self::Item> {
-        let ret = self.next;
-
-        match ((self.next + 1)..).find(|n| {
-            let rt = (*n as f64).sqrt() as u64;
-            self.ps
-                .iter()
-                .take_while(|m| *m <= &rt)
-                .find(|m| *n % *m == 0)
-                == None
-        }) {
-            Some(p) => {
-                self.ps.push(p);
-                self.next = p;
-                Some(ret)
-            }
-            _ => None,
-        }
-    }
+    Box::new((2..).take(1).chain(iter))
 }
 
 pub fn sieve(m: usize) -> Vec<u64> {
@@ -56,7 +39,7 @@ pub fn sieve(m: usize) -> Vec<u64> {
 
 // TODO ジェネリックにできないか？
 pub fn prime_factors(n: u64) -> HashMap<u64, usize> {
-    Primes::new()
+    primes()
         .scan(n, |m, p| {
             if p > *m {
                 return None;
@@ -167,18 +150,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_primes_new() {
-        let primes = Primes::new();
-        assert_eq!(vec![2], primes.ps);
-        assert_eq!(2, primes.next);
-    }
-
-    #[test]
-    fn test_primes_next() {
-        let mut primes = Primes {
-            ps: vec![2],
-            next: 2,
-        };
+    fn test_primes() {
+        let mut primes = primes();
         for expected in vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29] {
             let p = primes.next();
             assert_eq!(Some(expected), p);
