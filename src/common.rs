@@ -108,15 +108,15 @@ pub fn get_prime_factor_sums(max: u64) -> HashMap<u64, u64> {
 pub fn sum_string_int(a: &str, b: &str) -> String {
     let m = a.len().max(b.len());
 
-    let num1 = padding(a, '0', m - a.len(), true);
-    let num2 = padding(b, '0', m - b.len(), true);
+    let num1 = padding(a, '0', m, true);
+    let num2 = padding(b, '0', m, true);
 
     let (mut s, c) = (0..m)
         .rev()
         .map(|i| {
             (
-                num1[i..i + 1].parse::<u64>().unwrap(),
-                num2[i..i + 1].parse::<u64>().unwrap(),
+                num1[i..i + 1].parse::<u8>().unwrap(),
+                num2[i..i + 1].parse::<u8>().unwrap(),
             )
         })
         .fold((String::from(""), 0), |(mut s, c), (n1, n2)| {
@@ -132,15 +132,17 @@ pub fn sum_string_int(a: &str, b: &str) -> String {
     s
 }
 
-fn padding(s: &str, c: char, n: usize, left: bool) -> String {
-    let mut new_s = String::new();
-    let (l, r) = if left { (n, 0) } else { (0, n) };
-    for _ in 0..l {
-        new_s.push(c);
+fn padding(s: &str, c: char, total_len: usize, left: bool) -> String {
+    if s.len() >= total_len {
+        return String::from(s);
     }
-    new_s.push_str(s);
-    for _ in 0..r {
-        new_s.push(c);
+
+    let mut new_s = String::from(s);
+    let pad = c.to_string().repeat(total_len - s.len());
+    if left {
+        new_s.insert_str(0, &pad);
+    } else {
+        new_s.push_str(&pad);
     }
     new_s
 }
@@ -296,8 +298,10 @@ mod tests {
             ("", ' ', 0, false, ""),
             ("", ' ', 1, true, " "),
             ("", ' ', 2, false, "  "),
-            ("a", 'b', 3, true, "bbba"),
-            ("a", 'b', 2, false, "abb"),
+            ("a", 'b', 3, true, "bba"),
+            ("a", 'b', 2, false, "ab"),
+            ("abc", 'd', 3, true, "abc"),
+            ("abc", 'd', 2, false, "abc"),
         ];
         for (s, c, n, left, expected) in ts {
             assert_eq!(expected, padding(s, c, n, left));
