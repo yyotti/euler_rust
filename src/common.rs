@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::ops::Rem;
 
-// TODO ジェネリックにできないか？
 pub fn primes() -> Box<Iterator<Item = u64>> {
     let mut multiples = HashMap::new();
     let iter = (3..).step_by(2).filter_map(move |i| {
@@ -37,7 +36,6 @@ pub fn sieve(m: usize) -> Vec<u64> {
         .collect()
 }
 
-// TODO ジェネリックにできないか？
 pub fn prime_factors(n: u64) -> HashMap<u64, usize> {
     primes()
         .scan(n, |m, p| {
