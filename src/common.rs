@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::ops::Rem;
 
-pub fn primes() -> Box<Iterator<Item = u64>> {
+pub fn primes() -> Box<dyn Iterator<Item = u64>> {
     let mut multiples = HashMap::new();
     let iter = (3..).step_by(2).filter_map(move |i| {
         let (prime_or_none, factor) = match multiples.remove(&i) {

@@ -6,7 +6,7 @@ use clap::ErrorKind;
 use euler_rust::*;
 
 fn main() {
-    let solvers: Vec<Box<Solver>> = vec![
+    let solvers: Vec<Box<dyn Solver>> = vec![
         Box::new(p0001::Solver),
         Box::new(p0002::Solver),
         Box::new(p0003::Solver),
@@ -37,6 +37,7 @@ fn main() {
         Box::new(p0028::Solver),
         Box::new(p0029::Solver),
         Box::new(p0030::Solver),
+        Box::new(p0031::Solver),
     ];
 
     let app = app_from_crate!().arg(
