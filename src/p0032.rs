@@ -60,20 +60,18 @@ fn solve(input: usize) -> i64 {
         .sum::<usize>() as i64
 }
 
-fn permutations(elems: &[usize], r: usize) -> Vec<Vec<usize>> {
-    if elems.len() < r {
-        return vec![];
+fn permutations<T>(elems: &[T], r: usize) -> Vec<Vec<T>>
+where
+    T: Copy,
+{
+    if r == 0 {
+        return vec![vec![]];
     }
 
-    match r {
-        0 => vec![vec![]],
-        1 => elems.iter().map(|&e| vec![e]).collect(),
-        _ => {
-            // TODO エレガントにしたい
-            let mut tail = elems.to_vec();
-            let e = tail.remove(0);
-
-            let mut perm: Vec<Vec<usize>> = permutations(&tail, r - 1)
+    elems
+        .split_first()
+        .map(|(&e, tail)| {
+            permutations(&tail, r - 1)
                 .iter()
                 .flat_map(|es| {
                     (0..=es.len()).map(move |i| {
@@ -82,45 +80,33 @@ fn permutations(elems: &[usize], r: usize) -> Vec<Vec<usize>> {
                         v
                     })
                 })
-                .collect();
-
-            permutations(&tail, r)
-                .iter()
-                .for_each(|v| perm.push(v.clone()));
-
-            perm
-        }
-    }
+                .chain(permutations(&tail, r).into_iter())
+                .collect()
+        })
+        .unwrap_or(vec![])
 }
 
-fn combinations(elems: &[usize], r: usize) -> Vec<Vec<usize>> {
-    if elems.len() < r {
-        return vec![];
+fn combinations<T>(elems: &[T], r: usize) -> Vec<Vec<T>>
+where
+    T: Copy,
+{
+    if r == 0 {
+        return vec![vec![]];
     }
 
-    match r {
-        0 => vec![vec![]],
-        1 => elems.iter().map(|&e| vec![e]).collect(),
-        _ => {
-            // TODO エレガントにしたい
-            let mut tail = elems.to_vec();
-            let e = tail.remove(0);
-
-            let mut comb: Vec<Vec<usize>> = combinations(&tail, r - 1)
+    elems
+        .split_first()
+        .map(|(&e, tail)| {
+            combinations(&tail, r - 1)
                 .iter_mut()
                 .map(|es| {
                     es.insert(0, e);
                     es.clone()
                 })
-                .collect();
-
-            combinations(&tail, r)
-                .iter()
-                .for_each(|v| comb.push(v.clone()));
-
-            comb
-        }
-    }
+                .chain(combinations(&tail, r).into_iter())
+                .collect()
+        })
+        .unwrap_or(vec![])
 }
 
 fn digits_to_num(ds: &[usize]) -> usize {
