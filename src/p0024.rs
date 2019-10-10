@@ -1,5 +1,7 @@
 //! [Problem 24](https://projecteuler.net/problem=24)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2024))
 
+use super::common::fact;
+
 pub struct Solver;
 
 const NUMS: &[u64] = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -31,14 +33,6 @@ fn solve(input: &[u64], n: usize) -> i64 {
     }
 
     perm.iter().fold(0, |acc, d| acc * 10 + d) as i64
-}
-
-fn fact(n: usize) -> u64 {
-    if n == 0 {
-        return 1;
-    }
-
-    n as u64 * fact(n - 1)
 }
 
 #[allow(dead_code)]
@@ -164,21 +158,6 @@ mod tests {
             assert_eq!(Some(es), p.next());
         }
         assert_eq!(None, p.next());
-    }
-
-    #[test]
-    fn test_fact() {
-        let ts = vec![
-            (0, 1),   // 0!
-            (1, 1),   // 1!
-            (2, 2),   // 2!
-            (3, 6),   // 3!
-            (4, 24),  // 4!
-            (5, 120), // 5!
-        ];
-        for (input, expected) in ts {
-            assert_eq!(expected, fact(input));
-        }
     }
 
     #[test]

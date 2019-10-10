@@ -145,6 +145,24 @@ fn padding(s: &str, c: char, total_len: usize, left: bool) -> String {
     new_s
 }
 
+pub fn digits(n: u64) -> Vec<u64> {
+    if n < 10 {
+        return vec![n];
+    }
+
+    let mut v = digits(n / 10);
+    v.push(n % 10);
+    v
+}
+
+pub fn fact(n: usize) -> u64 {
+    if n == 0 {
+        return 1;
+    }
+
+    n as u64 * fact(n - 1)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -303,6 +321,51 @@ mod tests {
         ];
         for (s, c, n, left, expected) in ts {
             assert_eq!(expected, padding(s, c, n, left));
+        }
+    }
+
+    #[test]
+    fn test_digits() {
+        let ts = vec![
+            (0, vec![0]),             //
+            (1, vec![1]),             //
+            (2, vec![2]),             //
+            (3, vec![3]),             //
+            (4, vec![4]),             //
+            (5, vec![5]),             //
+            (6, vec![6]),             //
+            (7, vec![7]),             //
+            (8, vec![8]),             //
+            (9, vec![9]),             //
+            (10, vec![1, 0]),         //
+            (11, vec![1, 1]),         //
+            (12, vec![1, 2]),         //
+            (21, vec![2, 1]),         //
+            (22, vec![2, 2]),         //
+            (100, vec![1, 0, 0]),     //
+            (101, vec![1, 0, 1]),     //
+            (120, vec![1, 2, 0]),     //
+            (121, vec![1, 2, 1]),     //
+            (1001, vec![1, 0, 0, 1]), //
+            (1221, vec![1, 2, 2, 1]), //
+        ];
+        for (input, expected) in ts {
+            assert_eq!(expected, digits(input))
+        }
+    }
+
+    #[test]
+    fn test_fact() {
+        let ts = vec![
+            (0, 1),   // 0!
+            (1, 1),   // 1!
+            (2, 2),   // 2!
+            (3, 6),   // 3!
+            (4, 24),  // 4!
+            (5, 120), // 5!
+        ];
+        for (input, expected) in ts {
+            assert_eq!(expected, fact(input));
         }
     }
 }

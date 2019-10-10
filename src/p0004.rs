@@ -1,5 +1,7 @@
 //! [Problem 4](https://projecteuler.net/problem=4)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%204))
 
+use super::common::digits;
+
 pub struct Solver;
 
 const NUM: usize = 3;
@@ -29,16 +31,6 @@ fn is_palindrome<T: std::cmp::Eq>(arr: &[T]) -> bool {
         ds if ds[0] == ds[ds.len() - 1] => is_palindrome(&ds[1..ds.len() - 1]),
         _ => false,
     }
-}
-
-fn digits(n: u64) -> Vec<u64> {
-    if n < 10 {
-        return vec![n];
-    }
-
-    let mut v = digits(n / 10);
-    v.push(n % 10);
-    v
 }
 
 #[cfg(test)]
@@ -72,36 +64,6 @@ mod tests {
         ];
         for (input, expected) in ts {
             assert_eq!(expected, is_palindrome(input.as_slice()), "{:?}", input)
-        }
-    }
-
-    #[test]
-    fn test_digits() {
-        let ts = vec![
-            (0, vec![0]),             //
-            (1, vec![1]),             //
-            (2, vec![2]),             //
-            (3, vec![3]),             //
-            (4, vec![4]),             //
-            (5, vec![5]),             //
-            (6, vec![6]),             //
-            (7, vec![7]),             //
-            (8, vec![8]),             //
-            (9, vec![9]),             //
-            (10, vec![1, 0]),         //
-            (11, vec![1, 1]),         //
-            (12, vec![1, 2]),         //
-            (21, vec![2, 1]),         //
-            (22, vec![2, 2]),         //
-            (100, vec![1, 0, 0]),     //
-            (101, vec![1, 0, 1]),     //
-            (120, vec![1, 2, 0]),     //
-            (121, vec![1, 2, 1]),     //
-            (1001, vec![1, 0, 0, 1]), //
-            (1221, vec![1, 2, 2, 1]), //
-        ];
-        for (input, expected) in ts {
-            assert_eq!(expected, digits(input))
         }
     }
 }
