@@ -1,6 +1,7 @@
 //! [Problem 32](https://projecteuler.net/problem=32)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2032))
 
 use std::collections::HashSet;
+use super::common::digits_to_num;
 
 pub struct Solver;
 
@@ -107,10 +108,6 @@ where
                 .collect()
         })
         .unwrap_or(vec![])
-}
-
-fn digits_to_num(ds: &[usize]) -> usize {
-    ds.iter().fold(0, |acc, d| acc * 10 + d)
 }
 
 #[cfg(test)]
@@ -236,22 +233,6 @@ mod tests {
                 elems,
                 r
             );
-        }
-    }
-
-    #[test]
-    fn test_digits_to_num() {
-        let ts = vec![
-            (vec![], 0),
-            (vec![0], 0),
-            (vec![1], 1),
-            (vec![0, 2], 2),
-            (vec![1, 0], 10),
-            (vec![1, 0, 2], 102),
-            (vec![3, 2, 1], 321),
-        ];
-        for (input, expected) in ts {
-            assert_eq!(expected, digits_to_num(&input));
         }
     }
 }

@@ -163,6 +163,20 @@ pub fn fact(n: usize) -> u64 {
     n as u64 * fact(n - 1)
 }
 
+pub fn is_prime(n: u64) -> bool {
+    if n < 2 {
+        return false;
+    }
+
+    primes()
+        .take_while(|&p| p as f64 <= (n as f64).sqrt())
+        .all(|p| n % p != 0)
+}
+
+pub fn digits_to_num(ds: &[usize]) -> usize {
+    ds.iter().fold(0, |acc, d| acc * 10 + d)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -366,6 +380,51 @@ mod tests {
         ];
         for (input, expected) in ts {
             assert_eq!(expected, fact(input));
+        }
+    }
+
+    #[test]
+    fn test_is_prime() {
+        let ts = vec![
+            (1, false),  //
+            (2, true),   //
+            (3, true),   //
+            (4, false),  //
+            (5, true),   //
+            (6, false),  //
+            (7, true),   //
+            (8, false),  //
+            (9, false),  //
+            (10, false), //
+            (11, true),  //
+            (12, false), //
+            (13, true),  //
+            (14, false), //
+            (15, false), //
+            (16, false), //
+            (17, true),  //
+            (18, false), //
+            (19, true),  //
+            (20, false), //
+        ];
+        for (input, expected) in ts {
+            assert_eq!(expected, is_prime(input), "n={}", input);
+        }
+    }
+
+    #[test]
+    fn test_digits_to_num() {
+        let ts = vec![
+            (vec![], 0),
+            (vec![0], 0),
+            (vec![1], 1),
+            (vec![0, 2], 2),
+            (vec![1, 0], 10),
+            (vec![1, 0, 2], 102),
+            (vec![3, 2, 1], 321),
+        ];
+        for (input, expected) in ts {
+            assert_eq!(expected, digits_to_num(&input));
         }
     }
 }
