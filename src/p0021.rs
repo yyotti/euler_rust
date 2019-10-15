@@ -3,17 +3,9 @@
 use super::common::get_prime_factor_sums;
 use super::common::prime_factors;
 
-pub struct Solver;
+pub const NUM: usize = 10_000;
 
-const NUM: usize = 10_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // いちいち素因数分解してやるのは時間がかかりそうなので、エラトステネス風
     // に約数の和を計算してみる。
     let factors = get_prime_factor_sums(input as u64);

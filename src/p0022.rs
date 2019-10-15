@@ -2,17 +2,9 @@
 
 use std::fs;
 
-pub struct Solver;
+pub const FILE_PATH: &str = "data/p022_names.txt";
 
-const FILE_PATH: &str = "data/p022_names.txt";
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(FILE_PATH)
-    }
-}
-
-fn solve(input: &str) -> i64 {
+pub fn solve(input: &str) -> i64 {
     let mut names = load_names(input);
     names.sort();
     names.iter().enumerate().fold(0, |acc, (i, name)| {

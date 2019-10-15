@@ -2,17 +2,9 @@
 
 use super::common::sum_string_int;
 
-pub struct Solver;
+pub const DIGITS: usize = 1_000;
 
-const NUM: usize = 1_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(n: usize) -> i64 {
+pub fn solve(n: usize) -> i64 {
     // (参考) https://blog.miz-ar.info/2019/01/fast-fibonacci/
     //
     // フィボナッチ数列には一般項が存在する。

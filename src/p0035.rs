@@ -3,17 +3,9 @@
 use super::common;
 use std::collections::HashSet;
 
-pub struct Solver;
+pub const MAX_NUM: usize = 1_000_000;
 
-const NUM: usize = 1_000_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(max: usize) -> i64 {
+pub fn solve(max: usize) -> i64 {
     // 最大値が分かっているので、あらかじめそこまでの素数を求めておいて素数判定
     // を行う方が早い。
     // また、例えば 197 が巡回素数であればそれを巡回させた 971,719 も巡回素数

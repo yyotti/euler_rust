@@ -3,18 +3,10 @@
 use super::common::get_prime_factor_sums;
 use std::collections::HashMap;
 
-pub struct Solver;
-
 // TODO 固定値を与えられているのはなんか気持ち悪い
-const MAX_SUM: usize = 28123;
+pub const MAX_SUM: usize = 28123;
 
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(MAX_SUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // エラトステネスの篩の要領でやれると思う
     let abundant_numbers: HashMap<_, _> = get_prime_factor_sums(input as u64)
         .into_iter()

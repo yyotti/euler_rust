@@ -1,18 +1,10 @@
 //! [Problem 31](https://projecteuler.net/problem=31)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2031))
 
-pub struct Solver;
+pub const N: usize = 200;
 
-const N: usize = 200;
+pub const COINS: &[usize] = &[100, 200, 20, 10, 50, 5, 2, 1];
 
-const COINS: &[usize] = &[100, 200, 20, 10, 50, 5, 2, 1];
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(N, COINS)
-    }
-}
-
-fn solve(input: usize, coins: &[usize]) -> i64 {
+pub fn solve(input: usize, coins: &[usize]) -> i64 {
     if input == 0 {
         return 1;
     } else if coins.len() == 0 {

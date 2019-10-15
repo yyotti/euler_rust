@@ -2,17 +2,9 @@
 
 use super::common::multi;
 
-pub struct Solver;
+pub const POW: usize = 1000;
 
-const NUM: usize = 1000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // 2^x をそのまま計算できれば早いが、x=63あたりで限界がくる。
     // 掛け算を手動で実装し、各桁をVecに詰めたものを作ってみる。
     (1..=input)

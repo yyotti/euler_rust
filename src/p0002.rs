@@ -1,16 +1,8 @@
 //! [Problem 2](https://projecteuler.net/problem=2)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%202))
 
-pub struct Solver;
+pub const MAX_NUM: usize = 4_000_000;
 
-const MAX_NUM: usize = 4_000_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(MAX_NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     Fibonacci::new(1, 2)
         .take_while(|f| f <= &(input as u64))
         .filter(|f| f % 2 == 0)

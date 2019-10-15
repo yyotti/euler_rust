@@ -2,15 +2,7 @@
 
 use super::common::gcd;
 
-pub struct Solver;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve()
-    }
-}
-
-fn solve() -> i64 {
+pub fn solve() -> i64 {
     // 分数を a/b とする。
     // 1より小さく、分母分子がともに2桁である必要があるので、
     //   a, b >= 10 かつ a < b
@@ -80,7 +72,7 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        // No tests
+        assert_eq!(1, 2);
     }
 
     #[test]

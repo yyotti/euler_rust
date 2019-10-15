@@ -1,17 +1,9 @@
 //! [Problem 19](https://projecteuler.net/problem=19)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2019))
 
-pub struct Solver;
+pub const FROM_YM: (usize, usize) = (1901, 1);
+pub const TO_YM: (usize, usize) = (2000, 12);
 
-const FROM: (usize, usize) = (1901, 1);
-const TO: (usize, usize) = (2000, 12);
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(FROM, TO)
-    }
-}
-
-fn solve((from_y, from_m): (usize, usize), (to_y, to_m): (usize, usize)) -> i64 {
+pub fn solve((from_y, from_m): (usize, usize), (to_y, to_m): (usize, usize)) -> i64 {
     // 1900年1月1日が月曜日であるから、そこから7日ごとに月曜日に
     // なる。
     YearMonth::new(from_y, from_m)

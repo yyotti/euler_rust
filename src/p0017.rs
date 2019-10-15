@@ -2,9 +2,7 @@
 
 use std::collections::HashMap;
 
-pub struct Solver;
-
-const NUM: usize = 1000;
+pub const MAX_NUM: usize = 1000;
 
 const NUM_WORD_LEN: &[(usize, usize)] = &[
     (1, "one".len()),
@@ -41,13 +39,7 @@ const HUNDRED_LEN: usize = "hundred".len();
 
 const AND_LEN: usize = "and".len();
 
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     let word_lens: HashMap<usize, usize> = NUM_WORD_LEN.iter().copied().collect();
     (1..=input).fold(0, |acc, n| acc + num_word_len(n, &word_lens)) as i64
 }

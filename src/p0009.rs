@@ -2,17 +2,9 @@
 
 use super::common::gcd;
 
-pub struct Solver;
+pub const MAX_NUM: usize = 1000;
 
-const MAX: usize = 1000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve()
-    }
-}
-
-fn solve() -> i64 {
+pub fn solve(input: usize) -> i64 {
     // ピタゴラス数の一般項は、互いに素な正の整数 m, n (m > n, m - n は奇数) を用いて、
     //   a = m^2 - n^2, b = 2mn, c = m^2 + n^2
     // で求められる。
@@ -29,10 +21,10 @@ fn solve() -> i64 {
                 }
             })
         })
-        .take_while(|&(a, b, c)| a < MAX || b < MAX || c < MAX)
+        .take_while(|&(a, b, c)| a < input || b < input || c < input)
         .filter_map(|(a, b, c)| {
-            if MAX % (a + b + c) == 0 {
-                let r = MAX / (a + b + c);
+            if input % (a + b + c) == 0 {
+                let r = input / (a + b + c);
                 Some(a * b * c * r * r * r)
             } else {
                 None
@@ -43,5 +35,10 @@ fn solve() -> i64 {
 
 #[cfg(test)]
 mod tests {
-    // No tests
+    use super::*;
+
+    #[test]
+    fn test_solve() {
+        assert_eq!(1, 2);
+    }
 }

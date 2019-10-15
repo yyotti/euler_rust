@@ -3,17 +3,9 @@
 use std::collections::HashSet;
 use super::common::digits_to_num;
 
-pub struct Solver;
+pub const N: usize = 9;
 
-const N: usize = 9;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(N)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     if input < 3 {
         return 0;
     }

@@ -1,16 +1,8 @@
 //! [Problem 14](https://projecteuler.net/problem=14)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2014))
 
-pub struct Solver;
+pub const MAX_NUM: usize = 1_000_000;
 
-const NUM: usize = 1_000_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     (1..input)
         .max_by_key(|&x| Collatz::new(x).count())
         .unwrap_or(0) as i64

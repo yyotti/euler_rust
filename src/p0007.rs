@@ -2,17 +2,9 @@
 
 use super::common::primes;
 
-pub struct Solver;
+pub const CNT: usize = 10001;
 
-const NUM: usize = 10001;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     primes().skip(input - 1).next().unwrap() as i64
 }
 

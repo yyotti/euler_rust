@@ -2,17 +2,9 @@
 
 use super::common::multi;
 
-pub struct Solver;
+pub const N: usize = 100;
 
-const NUM: usize = 100;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // n!も2^xと同様にnが大きくなるとオーバーフローするので、手動掛け算でやる。
     (1..=input)
         .fold(vec![1], |acc, n| multi(&acc, n as u64))

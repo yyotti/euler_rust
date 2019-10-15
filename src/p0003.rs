@@ -4,15 +4,9 @@ use super::common::prime_factors;
 
 pub struct Solver;
 
-const NUM: u64 = 600_851_475_143;
+pub const NUM: u64 = 600_851_475_143;
 
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: u64) -> i64 {
+pub fn solve(input: u64) -> i64 {
     *prime_factors(input).keys().max().unwrap_or(&1) as i64
 }
 

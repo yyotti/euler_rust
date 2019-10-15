@@ -1,16 +1,8 @@
 //! [Problem 6](https://projecteuler.net/problem=6)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%206))
 
-pub struct Solver;
+pub const MAX_NUM: usize = 100;
 
-const NUM: usize = 100;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // 素直にやるなら
     //   1^2 + 2^2 + ... + n^2
     // と

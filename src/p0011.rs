@@ -1,8 +1,6 @@
 //! [Problem 11](https://projecteuler.net/problem=11)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2011))
 
-pub struct Solver;
-
-const GRID: &[&[isize]] = &[
+pub const GRID: &[&[isize]] = &[
     &[
         08, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77, 91, 08,
     ],
@@ -72,37 +70,35 @@ const DISTS: &[&[(isize, isize)]] = &[
     &[(0, 0), (1, -1), (2, -2), (3, -3)], // 左下方向
 ];
 
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve()
-    }
+pub fn solve(grid: &[&[isize]]) -> i64 {
+    (0..grid.len())
+        .flat_map(|x| (0..grid[x].len()).map(move |y| (x, y)))
+        .fold(0, |acc, p| find_max_product(grid, p).max(acc))
 }
 
-fn solve() -> i64 {
-    (0..GRID.len())
-        .flat_map(|x| (0..GRID[x].len()).map(move |y| (x, y)))
-        .fold(0, |acc, p| find_max_product(p).max(acc))
-}
-
-fn find_max_product(p: (usize, usize)) -> i64 {
+fn find_max_product(grid: &[&[isize]], p: (usize, usize)) -> i64 {
     DISTS
         .iter()
-        .filter_map(|dists| calc_product(p, dists))
+        .filter_map(|dists| calc_product(grid, p, dists))
         .max()
         .unwrap_or(0)
 }
 
-fn calc_product((x, y): (usize, usize), dists: &[(isize, isize)]) -> Option<i64> {
+fn calc_product(
+    grid: &[&[isize]],
+    (x, y): (usize, usize),
+    dists: &[(isize, isize)],
+) -> Option<i64> {
     let i = x as isize + dists[3].0;
     let j = y as isize + dists[3].1;
-    if i < 0 || i >= GRID.len() as isize || j < 0 || j >= GRID[i as usize].len() as isize {
+    if i < 0 || i >= grid.len() as isize || j < 0 || j >= grid[i as usize].len() as isize {
         return None;
     }
 
     Some(
         dists
             .iter()
-            .map(|(i, j)| GRID[(x as isize + i) as usize][(y as isize + j) as usize])
+            .map(|(i, j)| grid[(x as isize + i) as usize][(y as isize + j) as usize])
             .product::<isize>() as i64,
     )
 }
@@ -121,28 +117,29 @@ mod tests {
             ((6, 8), 4791800),  //
         ];
         for ((x, y), expected) in ts {
-            assert_eq!(expected, find_max_product((x, y)))
+            assert_eq!(expected, find_max_product(GRID, (x, y))) // TODO test grid
         }
     }
 
     #[test]
     fn test_calc_product() {
+        let grid = GRID; // TODO test grid
         let ts = vec![
             // (0, 0)
             (
                 (0, 0),
                 [(0, 0), (0, 1), (0, 2), (0, 3)],
-                Some(GRID[0][0] * GRID[0][1] * GRID[0][2] * GRID[0][3]),
+                Some(grid[0][0] * grid[0][1] * grid[0][2] * grid[0][3]),
             ),
             (
                 (0, 0),
                 [(0, 0), (1, 0), (2, 0), (3, 0)],
-                Some(GRID[0][0] * GRID[1][0] * GRID[2][0] * GRID[3][0]),
+                Some(grid[0][0] * grid[1][0] * grid[2][0] * grid[3][0]),
             ),
             (
                 (0, 0),
                 [(0, 0), (1, 1), (2, 2), (3, 3)],
-                Some(GRID[0][0] * GRID[1][1] * GRID[2][2] * GRID[3][3]),
+                Some(grid[0][0] * grid[1][1] * grid[2][2] * grid[3][3]),
             ),
             ((0, 0), [(0, 0), (1, -1), (2, -2), (3, -3)], None),
             // (0, 17)
@@ -150,19 +147,19 @@ mod tests {
             (
                 (0, 17),
                 [(0, 0), (1, 0), (2, 0), (3, 0)],
-                Some(GRID[0][17] * GRID[1][17] * GRID[2][17] * GRID[3][17]),
+                Some(grid[0][17] * grid[1][17] * grid[2][17] * grid[3][17]),
             ),
             ((0, 17), [(0, 0), (1, 1), (2, 2), (3, 3)], None),
             (
                 (0, 17),
                 [(0, 0), (1, -1), (2, -2), (3, -3)],
-                Some(GRID[0][17] * GRID[1][16] * GRID[2][15] * GRID[3][14]),
+                Some(grid[0][17] * grid[1][16] * grid[2][15] * grid[3][14]),
             ),
             // (17, 0)
             (
                 (17, 0),
                 [(0, 0), (0, 1), (0, 2), (0, 3)],
-                Some(GRID[17][0] * GRID[17][1] * GRID[17][2] * GRID[17][3]),
+                Some(grid[17][0] * grid[17][1] * grid[17][2] * grid[17][3]),
             ),
             ((17, 0), [(0, 0), (1, 0), (2, 0), (3, 0)], None),
             ((17, 0), [(0, 0), (1, 1), (2, 2), (3, 3)], None),
@@ -176,28 +173,28 @@ mod tests {
             (
                 (6, 8),
                 [(0, 0), (0, 1), (0, 2), (0, 3)],
-                Some(GRID[6][8] * GRID[6][9] * GRID[6][10] * GRID[6][11]),
+                Some(grid[6][8] * grid[6][9] * grid[6][10] * grid[6][11]),
             ),
             (
                 (6, 8),
                 [(0, 0), (1, 0), (2, 0), (3, 0)],
-                Some(GRID[6][8] * GRID[7][8] * GRID[8][8] * GRID[9][8]),
+                Some(grid[6][8] * grid[7][8] * grid[8][8] * grid[9][8]),
             ),
             (
                 (6, 8),
                 [(0, 0), (1, 1), (2, 2), (3, 3)],
-                Some(GRID[6][8] * GRID[7][9] * GRID[8][10] * GRID[9][11]),
+                Some(grid[6][8] * grid[7][9] * grid[8][10] * grid[9][11]),
             ),
             (
                 (6, 8),
                 [(0, 0), (1, -1), (2, -2), (3, -3)],
-                Some(GRID[6][7] * GRID[7][6] * GRID[8][5] * GRID[9][5]),
+                Some(grid[6][7] * grid[7][6] * grid[8][5] * grid[9][5]),
             ),
         ];
         for (p, dists, expected) in ts {
             assert_eq!(
                 expected.map(|e| e as i64),
-                calc_product(p, &dists),
+                calc_product(grid, p, &dists),
                 "{:?} + {:?}",
                 p,
                 dists

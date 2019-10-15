@@ -3,17 +3,9 @@
 use super::common::prime_factors;
 use std::collections::HashMap;
 
-pub struct Solver;
+pub const SIZE: usize = 20;
 
-const NUM: usize = 20;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // 分子を素因数分解
     let ns = (input + 1..=input * 2)
         .flat_map(|i| prime_factors(i as u64))

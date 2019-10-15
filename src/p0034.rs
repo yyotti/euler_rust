@@ -2,15 +2,7 @@
 
 use super::common::{digits, fact};
 
-pub struct Solver;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve()
-    }
-}
-
-fn solve() -> i64 {
+pub fn solve() -> i64 {
     // nを自然数とし、その桁数をkとする。
     // また、nの各桁の数字をakとして、
     //   f(n) = Σ(l=1～k) al!

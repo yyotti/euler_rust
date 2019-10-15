@@ -1,16 +1,8 @@
 //! [Problem 30](https://projecteuler.net/problem=30)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2030))
 
-pub struct Solver;
+pub const DIGITS: usize = 5;
 
-const N: usize = 5;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(N)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // nをk桁の自然数(n>=2)とし、a1,a2,...,akをnの各桁の数字とする。
     //   n = a1*10^(k-1) + a2*10^(k-2) + ... + ak*10^0
     //

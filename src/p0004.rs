@@ -2,17 +2,9 @@
 
 use super::common::digits;
 
-pub struct Solver;
+pub const DIGIT_LEN: usize = 3;
 
-const NUM: usize = 3;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     let m = input as u32 - 1;
     let min = 10u64.pow(m);
     let max = 10u64.pow(m + 1);

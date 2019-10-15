@@ -2,17 +2,9 @@
 
 use super::common::prime_factors;
 
-pub struct Solver;
+pub const CNT: usize = 500;
 
-const CNT: usize = 500;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(CNT)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     Triangles::new()
         .find(|&t| count_factors(t as usize) > input)
         .unwrap_or(0) as i64

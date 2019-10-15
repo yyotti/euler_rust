@@ -2,17 +2,9 @@
 
 use std::collections::HashMap;
 
-pub struct Solver;
+pub const MAX_NUM: usize = 1_000;
 
-const NUM: usize = 1_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUM)
-    }
-}
-
-fn solve(n: usize) -> i64 {
+pub fn solve(n: usize) -> i64 {
     // 筆算を模倣して循環部を求める。
     //
     // 例として 1/7 の循環部を求めてみる。

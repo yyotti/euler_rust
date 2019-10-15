@@ -2,18 +2,10 @@
 
 use super::common::fact;
 
-pub struct Solver;
+pub const NUMS: &[u64] = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+pub const N: usize = 1_000_000;
 
-const NUMS: &[u64] = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-const N: usize = 1_000_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(NUMS, N)
-    }
-}
-
-fn solve(input: &[u64], n: usize) -> i64 {
+pub fn solve(input: &[u64], n: usize) -> i64 {
     // input = [a1, a2, ... , ak] とし、 a1 < a2 < ... < ak を満たすものとする。
     //
     // a1を先頭に置いた場合、残りの(k-1)個の要素の並べ方は (k-1)! 通りある。

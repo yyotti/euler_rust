@@ -5,18 +5,10 @@ use super::common::multi;
 use super::common::prime_factors;
 use std::collections::HashSet;
 
-pub struct Solver;
+pub const A: usize = 100;
+pub const B: usize = 100;
 
-const A: usize = 100;
-const B: usize = 100;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(A, B)
-    }
-}
-
-fn solve(a_max: usize, b_max: usize) -> i64 {
+pub fn solve(a_max: usize, b_max: usize) -> i64 {
     // 無理に計算しないようにする。
     // 具体的にべき乗計算をするのではなく、m^nを(m, n)で表現する。
     //

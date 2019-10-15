@@ -3,18 +3,10 @@
 use super::common::sieve;
 use super::common::primes;
 
-pub struct Solver;
+pub const A: usize = 1_000;
+pub const B: usize = 1_000;
 
-const A: usize = 1_000;
-const B: usize = 1_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(A, B)
-    }
-}
-
-fn solve(a: usize, b: usize) -> i64 {
+pub fn solve(a: usize, b: usize) -> i64 {
     // f(n) = n^2 + an + b とする。
     //
     // f(0) = b が素数にならなければならないので、bは素数である。

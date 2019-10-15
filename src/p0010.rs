@@ -2,17 +2,9 @@
 
 use super::common::sieve;
 
-pub struct Solver;
+pub const MAX_NUM: usize = 2_000_000;
 
-const MAX: usize = 2_000_000;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(MAX)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     sieve(input).iter().sum::<u64>() as i64
 }
 

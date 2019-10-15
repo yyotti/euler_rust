@@ -2,17 +2,9 @@
 
 use std::iter::repeat;
 
-pub struct Solver;
+pub const SIZE: usize = 1001;
 
-const SIZE: usize = 1001;
-
-impl super::Solver for Solver {
-    fn solve(&self) -> i64 {
-        solve(SIZE)
-    }
-}
-
-fn solve(input: usize) -> i64 {
+pub fn solve(input: usize) -> i64 {
     // 作成する正方形の1辺の大きさをN(Nは正の奇数)とする。
     // N = 1の場合は1のみで他に正方形の角にあたる点は無い。
     // N >= 3の場合に正方形の対角線上に位置する数字がどうなるかを考える。

@@ -1,7 +1,3 @@
-pub trait Solver {
-    fn solve(&self) -> i64;
-}
-
 pub mod common;
 pub mod p0001;
 pub mod p0002;
