@@ -118,6 +118,6 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        assert_eq!(1, 2);
+        assert_eq!(1111111110, solve(&["1234567890", "9876543210"]));
     }
 }

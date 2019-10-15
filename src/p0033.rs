@@ -72,7 +72,7 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        assert_eq!(1, 2);
+        // No tests
     }
 
     #[test]

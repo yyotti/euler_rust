@@ -10,6 +10,8 @@ pub fn solve(input: usize) -> i64 {
     // で求められる。
     // ただし、これで求められるのは原始ピタゴラス数なので、1000の約数を探し出して
     // そのabcを定数倍すればよい。
+
+    // TODO 1つだけ存在することを確認していない
     (2..)
         .flat_map(|m| {
             let start = if m % 2 == 0 { 1 } else { 2 };
@@ -24,6 +26,7 @@ pub fn solve(input: usize) -> i64 {
         .take_while(|&(a, b, c)| a < input || b < input || c < input)
         .filter_map(|(a, b, c)| {
             if input % (a + b + c) == 0 {
+                println!("({}, {}, {})", a, b, c);
                 let r = input / (a + b + c);
                 Some(a * b * c * r * r * r)
             } else {
@@ -39,6 +42,7 @@ mod tests {
 
     #[test]
     fn test_solve() {
-        assert_eq!(1, 2);
+        assert_eq!(0, solve(100));
+        assert_eq!(255000, solve(200));
     }
 }
