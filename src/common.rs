@@ -177,6 +177,15 @@ pub fn digits_to_num(ds: &[usize]) -> usize {
     ds.iter().fold(0, |acc, d| acc * 10 + d)
 }
 
+pub fn is_palindrome<T: std::cmp::Eq>(arr: &[T]) -> bool {
+    match arr {
+        [] => true,
+        [_] => true,
+        ds if ds[0] == ds[ds.len() - 1] => is_palindrome(&ds[1..ds.len() - 1]),
+        _ => false,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -425,6 +434,25 @@ mod tests {
         ];
         for (input, expected) in ts {
             assert_eq!(expected, digits_to_num(&input));
+        }
+    }
+
+    #[test]
+    fn test_is_palindrome() {
+        let ts = vec![
+            (vec![], true),            //
+            (vec![0], true),           //
+            (vec![9], true),           //
+            (vec![1, 9], false),       //
+            (vec![2, 2], true),        //
+            (vec![1, 2, 3], false),    //
+            (vec![3, 2, 3], true),     //
+            (vec![1, 0, 1, 2], false), //
+            (vec![2, 0, 1, 2], false), //
+            (vec![2, 1, 1, 2], true),  //
+        ];
+        for (input, expected) in ts {
+            assert_eq!(expected, is_palindrome(input.as_slice()), "{:?}", input)
         }
     }
 }
