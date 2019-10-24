@@ -26,7 +26,6 @@ pub fn solve(input: usize) -> i64 {
         .take_while(|&(a, b, c)| a < input || b < input || c < input)
         .filter_map(|(a, b, c)| {
             if input % (a + b + c) == 0 {
-                println!("({}, {}, {})", a, b, c);
                 let r = input / (a + b + c);
                 Some(a * b * c * r * r * r)
             } else {
