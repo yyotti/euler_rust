@@ -69,6 +69,7 @@ fn solve(n: u32) -> Option<i64> {
         36 => p0036::solve(p0036::MAX_NUM),
         37 => p0037::solve(),
         38 => p0038::solve(),
+        39 => p0039::solve(p0039::MAX_NUM),
         _ => return None,
     };
 
