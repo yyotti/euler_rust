@@ -1,6 +1,6 @@
 //! [Problem 9](https://projecteuler.net/problem=9)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%209))
 
-use super::common::gcd;
+use super::common;
 
 pub const MAX_NUM: usize = 1000;
 
@@ -12,17 +12,7 @@ pub fn solve(input: usize) -> i64 {
     // そのabcを定数倍すればよい。
 
     // TODO 1つだけ存在することを確認していない
-    (2..)
-        .flat_map(|m| {
-            let start = if m % 2 == 0 { 1 } else { 2 };
-            (start..m).step_by(2).filter_map(move |n| {
-                if (m - n) % 2 == 1 && gcd(m, n) == 1 {
-                    Some((m * m - n * n, 2 * m * n, m * m + n * n))
-                } else {
-                    None
-                }
-            })
-        })
+    common::pythagoras()
         .take_while(|&(a, b, c)| a < input || b < input || c < input)
         .filter_map(|(a, b, c)| {
             if input % (a + b + c) == 0 {

@@ -26,17 +26,7 @@ pub fn solve(input: usize) -> i64 {
     //   ...
     //   ka' + kb' + kc' = kp1 = pk
     // を数え上げ、最も多くのパターンで生成できるpを見つければよい。
-    (2..)
-        .flat_map(|m| {
-            let start = if m % 2 == 0 { 1 } else { 2 };
-            (start..m).step_by(2).filter_map(move |n| {
-                if (m - n) % 2 == 1 && common::gcd(m, n) == 1 {
-                    Some((m * m - n * n, 2 * m * n, m * m + n * n))
-                } else {
-                    None
-                }
-            })
-        })
+    common::pythagoras()
         .take_while(|&(a, b, c)| a < input || b < input || c < input)
         .filter(|&(a, b, c)| a + b + c <= input)
         .fold(HashMap::new(), |mut acc, (a, b, c)| {

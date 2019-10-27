@@ -186,6 +186,19 @@ pub fn is_palindrome<T: std::cmp::Eq>(arr: &[T]) -> bool {
     }
 }
 
+pub fn pythagoras() -> Box<dyn Iterator<Item = (usize, usize, usize)>> {
+    Box::new((2..).flat_map(|m| {
+        let start = if m % 2 == 0 { 1 } else { 2 };
+        (start..m).step_by(2).filter_map(move |n| {
+            if (m - n) % 2 == 1 && gcd(m, n) == 1 {
+                Some((m * m - n * n, 2 * m * n, m * m + n * n))
+            } else {
+                None
+            }
+        })
+    }))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -453,6 +466,27 @@ mod tests {
         ];
         for (input, expected) in ts {
             assert_eq!(expected, is_palindrome(input.as_slice()), "{:?}", input)
+        }
+    }
+
+    #[test]
+    fn test_pythagoras() {
+        let triplets = vec![
+            (3, 4, 5),
+            (5, 12, 13),
+            (15, 8, 17),
+            (7, 24, 25),
+            (21, 20, 29),
+            (9, 40, 41),
+            (35, 12, 37),
+            (11, 60, 61),
+            (45, 28, 53),
+            (33, 56, 65),
+        ];
+        let mut pytha = pythagoras();
+        for expected in triplets {
+            let p = pytha.next();
+            assert_eq!(Some(expected), p);
         }
     }
 }
