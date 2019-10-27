@@ -5,6 +5,38 @@ use super::common;
 pub const INDICES: &[usize] = &[1, 10, 100, 1_000, 10_000, 100_000, 1_000_000];
 
 pub fn solve(input: &[usize]) -> i64 {
+    // 数学で求める。
+    //
+    // チャンパーノウン定数の小数以下第n位が、何桁の整数に含まれているかをまず
+    // 考える。
+    //   ・1桁の数字は 1～9 で、計9桁ある。
+    //   ・2桁の数字は 10～99 で、(99-10+1)*2=180 桁あるので、
+    //     99までで計189桁。
+    //   ・3桁の数字は 100～999 で、(999-100+1)*3=2700桁あるので、
+    //     999までで2889桁。
+    //   ...
+    //   ・k桁の数字は 10^(k-1)～10^k-1 で、
+    //       (10^k-10^(k-1))*k = k*10^(k-1)*(10-1) = 9k*10^(k-1) 桁
+    //     あるので、k桁の数字の最大値(10^k-1)までで
+    //       Σ(i=1～k) {9i*10^(i-1)} 桁
+    //     である。
+    // これにより、何桁の数字に含まれているかが分かる。
+    //
+    // 仮に、第n位がd桁の数字に含まれているとし、d桁の整数が小数第j位から
+    // 始まっているとする。この時、
+    //   [(n-j)/d]+10^(d-1)
+    // で、どの整数に含まれているかが分かる。ただし[x]は床関数とする。
+    //
+    // 仮に、第n位が整数Nに含まれているとすれば、あとはその整数の何桁目かが
+    // 分かればよい。これは
+    //   (n-j) mod d
+    // で求めることができる。
+
+    input.iter().map(|&i| cn(i)).product::<usize>() as i64
+}
+
+#[allow(dead_code)]
+fn solve2(input: &[usize]) -> i64 {
     // イテレータを作って、指定されたインデックスの数字の積をとる。
     let mut c = Champernowne::new();
     input
@@ -50,6 +82,21 @@ impl Iterator for Champernowne {
     }
 }
 
+fn cn(n: usize) -> usize {
+    let (d, j) = (1..)
+        .scan(0, |acc, k| {
+            let before = *acc;
+            *acc += 9 * k * 10usize.pow(k as u32 - 1);
+            Some((k, *acc, before + 1))
+        })
+        .find_map(|(k, l, m)| if l >= n { Some((k, m)) } else { None })
+        .unwrap();
+
+    let m = (n - j) / d + 10usize.pow(d as u32 - 1);
+
+    common::digits(m as u64)[(n - j) % d] as usize
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -81,6 +128,23 @@ mod tests {
 
         for expected in digits {
             assert_eq!(Some(expected), c.next());
+        }
+    }
+
+    #[test]
+    fn test_cn() {
+        let ts = vec![
+            (1, 1),   //
+            (2, 2),   //
+            (3, 3),   //
+            (4, 4),   //
+            (5, 5),   //
+            (12, 1),  //
+            (234, 4), //
+        ];
+
+        for (input, expected) in ts {
+            assert_eq!(expected, cn(input));
         }
     }
 }
