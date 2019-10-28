@@ -1,7 +1,7 @@
 //! [Problem 32](https://projecteuler.net/problem=32)([JP](http://www.odz.sakura.ne.jp/projecteuler/index.php?cmd=read&page=Problem%2032))
 
 use std::collections::HashSet;
-use super::common::digits_to_num;
+use super::common;
 
 pub const N: usize = 9;
 
@@ -35,13 +35,13 @@ pub fn solve(input: usize) -> i64 {
         })
         .collect();
 
-    permutations(&(1..=input).collect::<Vec<usize>>(), input)
+    common::permutations(&(1..=input).collect::<Vec<usize>>(), input)
         .iter()
         .fold(HashSet::new(), |mut acc, nums| {
             positions.iter().for_each(|&(i1, i2)| {
-                let a = digits_to_num(&nums[..i1]);
-                let b = digits_to_num(&nums[i1..i2]);
-                let c = digits_to_num(&nums[i2..]);
+                let a = common::digits_to_num(&nums[..i1]);
+                let b = common::digits_to_num(&nums[i1..i2]);
+                let c = common::digits_to_num(&nums[i2..]);
                 if a * b == c {
                     acc.insert(c);
                 }
@@ -51,32 +51,6 @@ pub fn solve(input: usize) -> i64 {
         })
         .iter()
         .sum::<usize>() as i64
-}
-
-fn permutations<T>(elems: &[T], r: usize) -> Vec<Vec<T>>
-where
-    T: Copy,
-{
-    if r == 0 {
-        return vec![vec![]];
-    }
-
-    elems
-        .split_first()
-        .map(|(&e, tail)| {
-            permutations(&tail, r - 1)
-                .iter()
-                .flat_map(|es| {
-                    (0..=es.len()).map(move |i| {
-                        let mut v = es.clone();
-                        v.insert(i, e);
-                        v
-                    })
-                })
-                .chain(permutations(&tail, r).into_iter())
-                .collect()
-        })
-        .unwrap_or(vec![])
 }
 
 fn combinations<T>(elems: &[T], r: usize) -> Vec<Vec<T>>
@@ -120,57 +94,6 @@ mod tests {
         ];
         for (input, expected) in ts {
             assert_eq!(expected, solve(input));
-        }
-    }
-
-    #[test]
-    fn test_permutations() {
-        let ts = vec![
-            (vec![], 0, vec![vec![]]),
-            (vec![], 1, vec![]),
-            (vec![1], 0, vec![vec![]]),
-            (vec![2], 1, vec![vec![2]]),
-            (vec![2], 2, vec![]),
-            (vec![1, 2], 0, vec![vec![]]),
-            (vec![1, 2], 1, vec![vec![1], vec![2]]),
-            (vec![1, 2], 2, vec![vec![1, 2], vec![2, 1]]),
-            (vec![1, 2], 3, vec![]),
-            (vec![1, 2, 3], 0, vec![vec![]]),
-            (vec![1, 2, 3], 1, vec![vec![1], vec![2], vec![3]]),
-            (
-                vec![1, 2, 3],
-                2,
-                vec![
-                    vec![1, 2],
-                    vec![2, 1],
-                    vec![1, 3],
-                    vec![3, 1],
-                    vec![2, 3],
-                    vec![3, 2],
-                ],
-            ),
-            (
-                vec![1, 2, 3],
-                3,
-                vec![
-                    vec![1, 2, 3],
-                    vec![2, 1, 3],
-                    vec![2, 3, 1],
-                    vec![1, 3, 2],
-                    vec![3, 1, 2],
-                    vec![3, 2, 1],
-                ],
-            ),
-            (vec![1, 2, 3], 4, vec![]),
-        ];
-        for (elems, r, expected) in ts {
-            assert_eq!(
-                expected,
-                permutations(&elems, r),
-                "elems={:?}, r={}",
-                elems,
-                r
-            );
         }
     }
 

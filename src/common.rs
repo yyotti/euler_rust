@@ -199,6 +199,32 @@ pub fn pythagoras() -> Box<dyn Iterator<Item = (usize, usize, usize)>> {
     }))
 }
 
+pub fn permutations<T>(elems: &[T], r: usize) -> Vec<Vec<T>>
+where
+    T: Copy,
+{
+    if r == 0 {
+        return vec![vec![]];
+    }
+
+    elems
+        .split_first()
+        .map(|(&e, tail)| {
+            permutations(&tail, r - 1)
+                .iter()
+                .flat_map(|es| {
+                    (0..=es.len()).map(move |i| {
+                        let mut v = es.clone();
+                        v.insert(i, e);
+                        v
+                    })
+                })
+                .chain(permutations(&tail, r).into_iter())
+                .collect()
+        })
+        .unwrap_or(vec![])
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -487,6 +513,57 @@ mod tests {
         for expected in triplets {
             let p = pytha.next();
             assert_eq!(Some(expected), p);
+        }
+    }
+
+    #[test]
+    fn test_permutations() {
+        let ts = vec![
+            (vec![], 0, vec![vec![]]),
+            (vec![], 1, vec![]),
+            (vec![1], 0, vec![vec![]]),
+            (vec![2], 1, vec![vec![2]]),
+            (vec![2], 2, vec![]),
+            (vec![1, 2], 0, vec![vec![]]),
+            (vec![1, 2], 1, vec![vec![1], vec![2]]),
+            (vec![1, 2], 2, vec![vec![1, 2], vec![2, 1]]),
+            (vec![1, 2], 3, vec![]),
+            (vec![1, 2, 3], 0, vec![vec![]]),
+            (vec![1, 2, 3], 1, vec![vec![1], vec![2], vec![3]]),
+            (
+                vec![1, 2, 3],
+                2,
+                vec![
+                    vec![1, 2],
+                    vec![2, 1],
+                    vec![1, 3],
+                    vec![3, 1],
+                    vec![2, 3],
+                    vec![3, 2],
+                ],
+            ),
+            (
+                vec![1, 2, 3],
+                3,
+                vec![
+                    vec![1, 2, 3],
+                    vec![2, 1, 3],
+                    vec![2, 3, 1],
+                    vec![1, 3, 2],
+                    vec![3, 1, 2],
+                    vec![3, 2, 1],
+                ],
+            ),
+            (vec![1, 2, 3], 4, vec![]),
+        ];
+        for (elems, r, expected) in ts {
+            assert_eq!(
+                expected,
+                permutations(&elems, r),
+                "elems={:?}, r={}",
+                elems,
+                r
+            );
         }
     }
 }
